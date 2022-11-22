@@ -1,16 +1,12 @@
-# tabnews
+# TabNews App
 
-A new Flutter project.
+Aplicativo para o [TabNews](https://www.tabnews.com.br) feito em Flutter.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+**Projeto em construção**
 
-A few resources to get you started if this is your first Flutter project:
+### Imagem
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Day 1](https://user-images.githubusercontent.com/5226773/203183779-f161f365-f820-4048-97d5-654d7e5f8a06.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
