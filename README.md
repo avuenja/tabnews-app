@@ -14,6 +14,8 @@ Aplicativo para o [TabNews](https://www.tabnews.com.br) feito em Flutter.
 
 ### Imagem
 
-![Day 1](https://user-images.githubusercontent.com/5226773/203183779-f161f365-f820-4048-97d5-654d7e5f8a06.png)
+![Home](https://user-images.githubusercontent.com/5226773/203303464-9ca6cdc5-7a61-4c7e-9059-2940c8572654.png)
+
+![Leitura](https://user-images.githubusercontent.com/5226773/203303505-93e8fe3b-08dd-4af3-9065-317ccf6a883c.png)
 
 
