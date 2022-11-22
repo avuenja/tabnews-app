@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tabnews/src/widgets/comments.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/extensions/dark_mode.dart';

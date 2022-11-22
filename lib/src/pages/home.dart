@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tabnews/src/login_state.dart';
 
 import 'package:tabnews/src/models/content.dart';
 import 'package:tabnews/src/services/api.dart';
@@ -27,9 +29,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+    test();
+
     _pagingController.addPageRequestListener((pageKey) {
       _getContents(pageKey);
     });
+  }
+
+  test() async {
+    print(LoginState(await SharedPreferences.getInstance()).session.id);
   }
 
   @override
