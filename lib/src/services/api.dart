@@ -7,8 +7,8 @@ import 'package:tabnews/src/models/content.dart';
 class Api {
   final apiUrl = 'https://www.tabnews.com.br/api/v1/contents';
 
-  Future<List<Content>> fetchContents() async {
-    final response = await http.get(Uri.parse(apiUrl));
+  Future<List<Content>> fetchContents({int page = 1}) async {
+    final response = await http.get(Uri.parse('$apiUrl?page=$page'));
 
     if (response.statusCode == 200) {
       var dataJson = jsonDecode(response.body);
@@ -24,8 +24,10 @@ class Api {
     }
   }
 
-  Future<List<Content>> fetchContentsNew() async {
-    final response = await http.get(Uri.parse('$apiUrl?strategy=new'));
+  Future<List<Content>> fetchContentsNew({int page = 1}) async {
+    final response = await http.get(
+      Uri.parse('$apiUrl?strategy=new&page=$page'),
+    );
 
     if (response.statusCode == 200) {
       var dataJson = jsonDecode(response.body);

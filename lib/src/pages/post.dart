@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/extensions/dark_mode.dart';
@@ -84,6 +85,18 @@ class _PostPageState extends State<PostPage> {
                     controller: _controller,
                     data: '${content.body}',
                     selectable: true,
+                    extensionSet: md.ExtensionSet(
+                      md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+                      [
+                        ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
+                        md.LineBreakSyntax(),
+                        md.LinkSyntax(),
+                        md.EmojiSyntax(),
+                        md.InlineHtmlSyntax(),
+                        md.ImageSyntax(),
+                        md.AutolinkExtensionSyntax(),
+                      ],
+                    ),
                   ),
                 ],
               ),
