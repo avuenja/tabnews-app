@@ -4,14 +4,15 @@ class Content {
   String? parentId;
   String? slug;
   String? title;
+  String? body;
   String? status;
   String? sourceUrl;
   String? createdAt;
   String? updatedAt;
   String? publishedAt;
   String? deletedAt;
-  int? tabcoins;
   String? ownerUsername;
+  int? tabcoins;
   int? childrenDeepCount;
 
   Content({
@@ -20,14 +21,15 @@ class Content {
     this.parentId,
     this.slug,
     this.title,
+    this.body,
     this.status,
     this.sourceUrl,
     this.createdAt,
     this.updatedAt,
     this.publishedAt,
     this.deletedAt,
-    this.tabcoins,
     this.ownerUsername,
+    this.tabcoins,
     this.childrenDeepCount,
   });
 
@@ -37,6 +39,7 @@ class Content {
     parentId = json['parent_id'];
     slug = json['slug'];
     title = json['title'];
+    body = json['body'];
     status = json['status'];
     sourceUrl = json['source_url'];
     createdAt = json['created_at'];
@@ -56,6 +59,7 @@ class Content {
     data['parent_id'] = parentId;
     data['slug'] = slug;
     data['title'] = title;
+    data['body'] = body;
     data['status'] = status;
     data['source_url'] = sourceUrl;
     data['created_at'] = createdAt;
