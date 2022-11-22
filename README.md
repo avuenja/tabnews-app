@@ -9,9 +9,12 @@ Aplicativo para o [TabNews](https://www.tabnews.com.br) feito em Flutter.
 - [ ] Resposta dos conteúdos
 - [ ] Postagens de conteúdos
 - [ ] Visualização do perfil
+- [ ] Favoritos (local database)
 
-### Imagem
+### Imagens
 
-![Home](https://user-images.githubusercontent.com/5226773/203303464-9ca6cdc5-7a61-4c7e-9059-2940c8572654.png)
+![Home](https://user-images.githubusercontent.com/5226773/203336200-6d56e78d-2abd-4b2b-b93b-84eb605627f9.PNG)
+![Home - Dark Mode](https://user-images.githubusercontent.com/5226773/203336162-7af83c42-9ec0-4b6c-8be6-e7be32426527.PNG)
 
-![Leitura](https://user-images.githubusercontent.com/5226773/203303505-93e8fe3b-08dd-4af3-9065-317ccf6a883c.png)
+![Leitura](https://user-images.githubusercontent.com/5226773/203336407-a25b0d9f-ea7c-4348-895d-d4cf418141e6.PNG)
+![Leitura - Dark Mode](https://user-images.githubusercontent.com/5226773/203336292-724ab6e6-d3fe-400a-a1ee-12ef5db0a54c.PNG)
