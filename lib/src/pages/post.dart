@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/markdown.dart' as md;
+import 'package:tabnews/src/widgets/separator.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import 'package:tabnews/src/widgets/comments.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
 import 'package:tabnews/src/services/api.dart';
 import 'package:tabnews/src/widgets/layout.dart';
+import 'package:tabnews/src/widgets/markdown.dart';
 
 class PostPage extends StatefulWidget {
   final String username;
@@ -76,27 +77,16 @@ class _PostPageState extends State<PostPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Markdown(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 0.0,
-                    ),
-                    shrinkWrap: true,
+                  MarkedownReader(
+                    body: '${content.body}',
                     controller: _controller,
-                    data: '${content.body}',
-                    selectable: true,
-                    extensionSet: md.ExtensionSet(
-                      md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-                      [
-                        ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
-                        md.LineBreakSyntax(),
-                        md.LinkSyntax(),
-                        md.EmojiSyntax(),
-                        md.InlineHtmlSyntax(),
-                        md.ImageSyntax(),
-                        md.AutolinkExtensionSyntax(),
-                      ],
-                    ),
+                  ),
+                  const SizedBox(height: 30.0),
+                  const AppSeparator(),
+                  const SizedBox(height: 30.0),
+                  CommentsWidget(
+                    slug: '${widget.username}/${widget.slug}',
+                    controller: _controller,
                   ),
                 ],
               ),

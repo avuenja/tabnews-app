@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tabnews/src/models/comment.dart';
 
 import 'package:tabnews/src/models/content.dart';
 
@@ -50,6 +51,23 @@ class Api {
       return Content.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load singular content');
+    }
+  }
+
+  Future<List<Comment>> fetchContentComments(String slug) async {
+    final response = await http.get(Uri.parse('$apiUrl/$slug/children'));
+
+    if (response.statusCode == 200) {
+      var dataJson = jsonDecode(response.body);
+      List<Comment> comments = [];
+
+      dataJson.forEach((item) {
+        comments.add(Comment.fromJson(item));
+      });
+
+      return comments;
+    } else {
+      throw Exception('Failed to load singular content children');
     }
   }
 }

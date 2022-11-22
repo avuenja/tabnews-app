@@ -3,10 +3,12 @@
 Aplicativo para o [TabNews](https://www.tabnews.com.br) feito em Flutter.
 
 ### Features:
+
 - [x] Tema escuro
 - [x] Leitura de conteúdos
 - [x] Pull To Refresh
 - [x] Infite Scroll
+- [ ] Comentários das publicações
 - [ ] Login do usuário
 - [ ] Resposta dos conteúdos
 - [ ] Postagens de conteúdos
