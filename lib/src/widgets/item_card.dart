@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
 
 class ItemCard extends StatelessWidget {
@@ -22,12 +23,13 @@ class ItemCard extends StatelessWidget {
     var slug = '${content.ownerUsername}/${content.slug}';
 
     return InkWell(
-      onTap: () => GoRouter.of(context).go('/post/$slug'),
+      onTap: () => GoRouter.of(context).push('/post/$slug'),
       child: Container(
         margin: const EdgeInsets.only(bottom: 15.0),
         padding: const EdgeInsets.all(15.0),
         decoration: BoxDecoration(
-          color: Colors.grey.shade200,
+          color:
+              context.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200,
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Column(
@@ -37,7 +39,7 @@ class ItemCard extends StatelessWidget {
               children: [
                 Text(
                   '${index + 1}.',
-                  style: const TextStyle(
+                  style: const TextStyle().copyWith(
                     fontSize: 15.0,
                     fontWeight: FontWeight.w700,
                   ),
@@ -46,7 +48,7 @@ class ItemCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     '${content.title}',
-                    style: const TextStyle(
+                    style: const TextStyle().copyWith(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w700,
                     ),
@@ -61,7 +63,9 @@ class ItemCard extends StatelessWidget {
                 Text(
                   '${content.tabcoins} tabcoins · ${content.ownerUsername} · ${timeago.format(date, locale: "pt-BR")}',
                   style: TextStyle(
-                    color: Colors.grey.shade700,
+                    color: context.isDarkMode
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade700,
                   ),
                 ),
               ],

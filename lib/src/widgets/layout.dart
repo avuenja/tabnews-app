@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'package:tabnews/src/extensions/dark_mode.dart';
+
 class LayoutApp extends StatelessWidget {
   final Future<void> Function() pullToRefresh;
   final Widget body;
@@ -29,14 +31,16 @@ class LayoutApp extends StatelessWidget {
           ],
         ),
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: const Color.fromRGBO(36, 41, 47, 1),
       ),
       body: RefreshIndicator(
-        color: Colors.black,
+        color: context.isDarkMode ? Colors.white : Colors.black,
         onRefresh: pullToRefresh,
         child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(color: Colors.black),
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: context.isDarkMode ? Colors.white : Colors.black,
+                ),
               )
             : body,
       ),

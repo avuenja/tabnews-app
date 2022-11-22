@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Content> contents = [];
+  late List<Content> contents;
   final api = Api();
   bool isLoading = true;
 
@@ -38,14 +38,16 @@ class _HomePageState extends State<HomePage> {
     return LayoutApp(
       pullToRefresh: _getContents,
       isLoading: isLoading,
-      body: ListView.builder(
-        itemCount: contents.length,
-        padding: const EdgeInsets.all(10.0),
-        itemBuilder: (context, index) => ItemCard(
-          index: index,
-          content: contents[index],
-        ),
-      ),
+      body: isLoading
+          ? const SizedBox()
+          : ListView.builder(
+              itemCount: contents.length,
+              padding: const EdgeInsets.all(10.0),
+              itemBuilder: (context, index) => ItemCard(
+                index: index,
+                content: contents[index],
+              ),
+            ),
     );
   }
 }
