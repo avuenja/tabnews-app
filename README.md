@@ -8,8 +8,8 @@ Aplicativo para o [TabNews](https://www.tabnews.com.br) feito em Flutter.
 - [x] Leitura de conteúdos
 - [x] Pull To Refresh
 - [x] Infite Scroll
-- [ ] Comentários das publicações
-- [ ] Login do usuário
+- [ ] Comentários das publicações (Em progresso)
+- [ ] Login do usuário (Em progresso)
 - [ ] Resposta dos conteúdos
 - [ ] Postagens de conteúdos
 - [ ] Visualização do perfil
