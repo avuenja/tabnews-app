@@ -5,38 +5,22 @@ import 'package:tabnews/src/models/comment.dart';
 import 'package:tabnews/src/services/api.dart';
 import 'package:tabnews/src/ui/widgets/item_comment.dart';
 
-class CommentsRootWidget extends StatefulWidget {
-  final String slug;
+class CommentsWidget extends StatefulWidget {
+  final List<Comment> comments;
   final ScrollController controller;
 
-  const CommentsRootWidget({
+  const CommentsWidget({
     super.key,
-    required this.slug,
+    required this.comments,
     required this.controller,
   });
 
   @override
-  State<CommentsRootWidget> createState() => _CommentsRootWidgetState();
+  State<CommentsWidget> createState() => _CommentsWidgetState();
 }
 
-class _CommentsRootWidgetState extends State<CommentsRootWidget> {
-  List<Comment> comments = [];
+class _CommentsWidgetState extends State<CommentsWidget> {
   final api = Api();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getComments();
-  }
-
-  Future<void> _getComments() async {
-    var comment = await api.fetchContentComments(widget.slug);
-
-    setState(() {
-      comments = comment;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +29,10 @@ class _CommentsRootWidgetState extends State<CommentsRootWidget> {
     return ListView.separated(
       shrinkWrap: true,
       controller: widget.controller,
-      itemCount: comments.length,
+      itemCount: widget.comments.length,
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) => ItemComment(
-        comment: comments[index],
+        comment: widget.comments[index],
         controller: widget.controller,
       ),
     );

@@ -60,6 +60,9 @@ class _MyContentsPageState extends State<MyContentsPage> {
   @override
   Widget build(BuildContext context) {
     return PageLayout(
+      onRefresh: () => Future.sync(
+        () => _pagingController.refresh(),
+      ),
       body: PagedListView<int, Content>(
         padding: const EdgeInsets.all(10.0),
         pagingController: _pagingController,

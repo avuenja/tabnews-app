@@ -21,6 +21,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   UserProvider._internal() {
+    _isLoading = false;
     _loggedIn = Preferences.getBool(_loggedKey) ?? false;
 
     if (_loggedIn) {
@@ -38,7 +39,12 @@ class UserProvider extends ChangeNotifier {
   User? _user;
   User? get user => _user;
 
+  late bool _isLoading;
+  bool get isLoading => _isLoading;
+
   void login(String email, String password) async {
+    _loading(true);
+
     var auth = await api.postLogin(email, password);
 
     if (auth.id!.isNotEmpty) {
@@ -52,6 +58,7 @@ class UserProvider extends ChangeNotifier {
       _user = user;
     }
 
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -62,7 +69,13 @@ class UserProvider extends ChangeNotifier {
     _loggedIn = false;
     _sessionId = '';
     _user = null;
+    _loading(false);
 
+    notifyListeners();
+  }
+
+  void _loading(bool value) {
+    _isLoading = value;
     notifyListeners();
   }
 

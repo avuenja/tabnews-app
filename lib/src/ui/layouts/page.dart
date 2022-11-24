@@ -7,10 +7,12 @@ import 'package:tabnews/src/ui/widgets/top_bar.dart';
 class PageLayout extends StatelessWidget {
   final Widget body;
   final bool isLoading;
+  final Future<void> Function() onRefresh;
 
   const PageLayout({
     super.key,
     required this.body,
+    required this.onRefresh,
     this.isLoading = false,
   });
 
@@ -20,7 +22,7 @@ class PageLayout extends StatelessWidget {
       appBar: const AppTopBar(),
       body: RefreshIndicator(
         color: context.isDarkMode ? Colors.white : Colors.black,
-        onRefresh: () async {},
+        onRefresh: onRefresh,
         child: isLoading ? const AppProgressIndicator() : body,
       ),
     );

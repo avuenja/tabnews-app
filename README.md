@@ -30,19 +30,20 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 
 **Lembrando que as vezes é necessário abrir o emulador/simulador antes de rodar o comando de run.**
 
-
 ## Features:
 
 - [x] Dark mode
 - [x] Leitura de conteúdos
 - [x] Pull To Refresh
 - [x] Infite Scroll
-- [ ] Visualização de Comentários das publicações (Em progresso)
+- [x] Visualização de Comentários das publicações
 - [x] Login do usuário
 - [x] Meus conteúdos
+- [ ] Gerencimaneto de conta
+- [ ] Criação de conta pelo App
 - [ ] Resposta dos conteúdos
 - [ ] Postagens de conteúdos
-- [ ] Visualização do perfil
+- [ ] Visualização do perfil de outros usuários
 - [ ] Favoritos (local database)
 - [ ] Opção ler mais taerde (local database)
 
@@ -54,6 +55,4 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 <img src="https://user-images.githubusercontent.com/5226773/203336407-a25b0d9f-ea7c-4348-895d-d4cf418141e6.PNG" width="300px" alt="Leitura" />
 <img src="https://user-images.githubusercontent.com/5226773/203336292-724ab6e6-d3fe-400a-a1ee-12ef5db0a54c.PNG" width="300px" alt="Leitura - Dark" />
 
-
 ## Contribuidores
-
