@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 import 'package:tabnews/src/constants.dart';
 import 'package:tabnews/src/login_state.dart';
 import 'package:tabnews/src/models/auth.dart';
@@ -29,8 +29,6 @@ class _LoginPageState extends State<LoginPage> {
     if (auth.id!.isNotEmpty) {
       Provider.of<LoginState>(context, listen: false).loggedIn = true;
       Provider.of<LoginState>(context, listen: false).session = auth;
-
-      GoRouter.of(context).replaceNamed(loginRouteName);
     }
   }
 
@@ -50,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         elevation: 0,
-        backgroundColor: primaryColor,
+        backgroundColor: AppColors.primaryColor,
       ),
       body: Center(
         child: Form(
@@ -95,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0.0),
                     backgroundColor: MaterialStateProperty.all<Color>(
-                      primaryColor,
+                      AppColors.primaryColor,
                     ),
                     foregroundColor: MaterialStateProperty.all<Color>(
                       Colors.white,

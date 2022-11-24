@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tabnews/src/widgets/item_comment.dart';
-import 'package:tabnews/src/widgets/separator.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/models/comment.dart';
 import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/ui/widgets/item_comment.dart';
 
 class CommentsWidget extends StatefulWidget {
   final String slug;
@@ -47,7 +46,7 @@ class _CommentsWidgetState extends State<CommentsWidget> {
       shrinkWrap: true,
       controller: widget.controller,
       itemCount: comments.length,
-      separatorBuilder: (context, index) => const AppSeparator(),
+      separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) => ItemComment(
         comment: comments[index],
         controller: widget.controller,
