@@ -43,7 +43,7 @@ class _MyContentsPageState extends State<MyContentsPage> {
   Future<void> _getContents(int page) async {
     final content = await api.fetchMyContents(
       page: page,
-      user: UserProvider().user.username!,
+      user: '${UserProvider().user?.username}',
     );
 
     final isLastPage = content.length < _perPage;

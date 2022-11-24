@@ -35,8 +35,8 @@ class UserProvider extends ChangeNotifier {
   late String _sessionId;
   String get sessionId => _sessionId;
 
-  late User _user;
-  User get user => _user;
+  User? _user;
+  User? get user => _user;
 
   void login(String email, String password) async {
     var auth = await api.postLogin(email, password);
@@ -48,6 +48,8 @@ class UserProvider extends ChangeNotifier {
       Preferences.setString(_userKey, jsonEncode(user.toJson()));
       Preferences.setBool(_loggedKey, true);
       _loggedIn = true;
+      _sessionId = auth.token!;
+      _user = user;
     }
 
     notifyListeners();
@@ -58,6 +60,8 @@ class UserProvider extends ChangeNotifier {
     Preferences.setString(_userKey, '');
     Preferences.setBool(_loggedKey, false);
     _loggedIn = false;
+    _sessionId = '';
+    _user = null;
 
     notifyListeners();
   }
