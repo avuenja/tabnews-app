@@ -70,4 +70,26 @@ class Api {
       throw Exception('Failed to load singular content children');
     }
   }
+
+  Future<List<Content>> fetchMyContents({
+    int page = 1,
+    required String user,
+  }) async {
+    final response = await http.get(
+      Uri.parse('$apiUrl/$user?strategy=new&page=$page'),
+    );
+
+    if (response.statusCode == 200) {
+      var dataJson = jsonDecode(response.body);
+      List<Content> contents = [];
+
+      dataJson.forEach((item) {
+        contents.add(Content.fromJson(item));
+      });
+
+      return contents;
+    } else {
+      throw Exception('Failed to load my contents');
+    }
+  }
 }

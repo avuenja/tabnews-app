@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:tabnews/src/widgets/separator.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'package:tabnews/src/widgets/comments.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
 import 'package:tabnews/src/services/api.dart';
-import 'package:tabnews/src/widgets/layout.dart';
-import 'package:tabnews/src/widgets/markdown.dart';
+import 'package:tabnews/src/ui/widgets/markdown.dart';
+import 'package:tabnews/src/ui/widgets/comments.dart';
+import 'package:tabnews/src/ui/layouts/page.dart';
+import 'package:tabnews/src/ui/widgets/progress_indicator.dart';
 
-class PostPage extends StatefulWidget {
+class ContentPage extends StatefulWidget {
   final String username;
   final String slug;
 
-  const PostPage({
+  const ContentPage({
     super.key,
     required this.username,
     required this.slug,
   });
 
   @override
-  State<PostPage> createState() => _PostPageState();
+  State<ContentPage> createState() => _ContentPageState();
 }
 
-class _PostPageState extends State<PostPage> {
+class _ContentPageState extends State<ContentPage> {
   Content content = Content.fromJson({});
   final api = Api();
   final ScrollController _controller = ScrollController();
@@ -37,8 +37,9 @@ class _PostPageState extends State<PostPage> {
   }
 
   Future<void> _getContent() async {
-    var contentResp =
-        await api.fetchContent('${widget.username}/${widget.slug}');
+    var contentResp = await api.fetchContent(
+      '${widget.username}/${widget.slug}',
+    );
 
     setState(() {
       content = contentResp;
@@ -50,11 +51,9 @@ class _PostPageState extends State<PostPage> {
   Widget build(BuildContext context) {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
 
-    return LayoutApp(
-      pullToRefresh: _getContent,
-      isLoading: isLoading,
+    return PageLayout(
       body: isLoading
-          ? const SizedBox()
+          ? const AppProgressIndicator()
           : SingleChildScrollView(
               controller: _controller,
               padding: const EdgeInsets.all(10.0),
@@ -71,7 +70,9 @@ class _PostPageState extends State<PostPage> {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    '${content.title}',
+                    content.parentId != null
+                        ? 'Em resposta a...'
+                        : '${content.title}',
                     style: const TextStyle().copyWith(
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
@@ -82,7 +83,7 @@ class _PostPageState extends State<PostPage> {
                     controller: _controller,
                   ),
                   const SizedBox(height: 30.0),
-                  const AppSeparator(),
+                  const Divider(),
                   const SizedBox(height: 30.0),
                   CommentsWidget(
                     slug: '${widget.username}/${widget.slug}',

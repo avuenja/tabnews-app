@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tabnews/src/login_state.dart';
 
-import 'package:tabnews/src/routes.dart';
+import 'package:tabnews/src/login_state.dart';
+import 'package:tabnews/src/ui/layouts/tab.dart';
 
 class App extends StatelessWidget {
   final LoginState loginState;
@@ -17,26 +17,15 @@ class App extends StatelessWidget {
           lazy: false,
           create: (_) => loginState,
         ),
-        Provider<Routes>(
-          lazy: false,
-          create: (context) => Routes(loginState),
-        ),
       ],
-      child: Builder(
-        builder: (context) {
-          final router = Provider.of<Routes>(context, listen: false).router;
-
-          return MaterialApp.router(
-            routeInformationParser: router.routeInformationParser,
-            routerDelegate: router.routerDelegate,
-            title: 'TabNews',
-            debugShowCheckedModeBanner: false,
-            darkTheme: ThemeData.dark(),
-            theme: ThemeData(
-              primaryColor: Colors.black,
-            ),
-          );
-        },
+      child: MaterialApp(
+        title: 'TabNews',
+        debugShowCheckedModeBanner: false,
+        darkTheme: ThemeData.dark(),
+        theme: ThemeData(
+          primaryColor: Colors.black,
+        ),
+        home: const TabLayout(),
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/comment.dart';
-import 'package:tabnews/src/widgets/markdown.dart';
+import 'package:tabnews/src/ui/widgets/markdown.dart';
 
 class ItemComment extends StatelessWidget {
   final Comment comment;
