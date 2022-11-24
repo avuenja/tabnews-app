@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+
 import 'package:tabnews/src/models/auth.dart';
+import 'package:tabnews/src/models/user.dart';
 
 class ApiAuth {
   final apiUrl = 'https://www.tabnews.com.br/api/v1';
@@ -22,6 +23,23 @@ class ApiAuth {
       return Auth.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load singular content children');
+    }
+  }
+
+  Future<User> fetchUser(String token) async {
+    final response = await http.get(
+      Uri.parse('$apiUrl/user'),
+      headers: {
+        'Set-Cookie': 'session_id=$token',
+        'Cookie': 'session_id=$token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load singular content');
     }
   }
 }

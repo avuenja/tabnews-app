@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:tabnews/src/models/content.dart';
+import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/services/api.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
 import 'package:tabnews/src/ui/widgets/item_content.dart';
@@ -42,7 +43,7 @@ class _MyContentsPageState extends State<MyContentsPage> {
   Future<void> _getContents(int page) async {
     final content = await api.fetchMyContents(
       page: page,
-      user: 'avuenja',
+      user: UserProvider().user.username!,
     );
 
     final isLastPage = content.length < _perPage;

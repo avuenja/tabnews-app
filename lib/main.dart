@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tabnews/src/app.dart';
-import 'package:tabnews/src/login_state.dart';
+import 'package:tabnews/src/preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final state = LoginState(await SharedPreferences.getInstance());
-  state.checkLoggedIn();
+  await Preferences.init();
 
-  runApp(App(loginState: state));
+  runApp(const App());
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/pages/my_contents.dart';
 import 'package:tabnews/src/utils/navigation.dart';
 
@@ -22,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'avuenja',
+            '${UserProvider().user.username}',
             style: const TextStyle().copyWith(
               fontSize: 28.0,
               fontWeight: FontWeight.w700,
@@ -44,7 +46,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const Divider(color: Colors.grey),
           ListTile(
-            onTap: () {},
+            onTap: () =>
+                Provider.of<UserProvider>(context, listen: false).logout(),
             title: Text(
               'Deslogar',
               style: const TextStyle().copyWith(
