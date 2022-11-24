@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
-import 'package:tabnews/src/login_state.dart';
-import 'package:tabnews/src/models/auth.dart';
-import 'package:tabnews/src/services/auth.dart';
+import 'package:tabnews/src/providers/user.dart';
+import 'package:tabnews/src/ui/widgets/top_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,38 +16,11 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final api = ApiAuth();
-
-  void saveLoginState(BuildContext context) async {
-    var auth = await api.postLogin(
-      emailTextController.text,
-      passwordTextController.text,
-    );
-
-    if (auth.id!.isNotEmpty) {
-      Provider.of<LoginState>(context, listen: false).loggedIn = true;
-      Provider.of<LoginState>(context, listen: false).session = auth;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Row(
-          children: [
-            SvgPicture.asset(
-              'lib/assets/logo.svg',
-              semanticsLabel: 'TabNews',
-            ),
-            const SizedBox(width: 10.0),
-            const Text('TabNews'),
-          ],
-        ),
-        elevation: 0,
-        backgroundColor: AppColors.primaryColor,
-      ),
+      appBar: const AppTopBar(),
       body: Center(
         child: Form(
           key: _formKey,
@@ -105,7 +76,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    saveLoginState(context);
+                    Provider.of<UserProvider>(context, listen: false).login(
+                      emailTextController.text,
+                      passwordTextController.text,
+                    );
                   },
                   child: Text(
                     'Login',

@@ -13,17 +13,6 @@ class AppBottomBar extends StatelessWidget {
     required this.currentPage,
   });
 
-  pageByIndex(index) {
-    switch (index) {
-      case 0:
-        return homeRouteName;
-      case 1:
-        return recentsRouteName;
-      default:
-        return rootRouteName;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ClipRect(

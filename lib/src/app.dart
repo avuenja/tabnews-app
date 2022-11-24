@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tabnews/src/login_state.dart';
+import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/layouts/tab.dart';
+import 'package:tabnews/src/ui/pages/login.dart';
 
 class App extends StatelessWidget {
-  final LoginState loginState;
-
-  const App({super.key, required this.loginState});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           lazy: false,
-          create: (_) => loginState,
+          create: (_) => UserProvider(),
         ),
       ],
       child: MaterialApp(
@@ -25,7 +24,10 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.black,
         ),
-        home: const TabLayout(),
+        home: Consumer<UserProvider>(
+          builder: (context, user, _) =>
+              user.loggedIn ? const TabLayout() : const LoginPage(),
+        ),
       ),
     );
   }
