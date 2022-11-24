@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '${UserProvider().user.username}',
+            '${UserProvider().user?.username}',
             style: const TextStyle().copyWith(
               fontSize: 28.0,
               fontWeight: FontWeight.w700,

@@ -52,6 +52,7 @@ class _ContentPageState extends State<ContentPage> {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
 
     return PageLayout(
+      onRefresh: _getContent,
       body: isLoading
           ? const AppProgressIndicator()
           : SingleChildScrollView(
@@ -85,7 +86,7 @@ class _ContentPageState extends State<ContentPage> {
                   const SizedBox(height: 30.0),
                   const Divider(),
                   const SizedBox(height: 30.0),
-                  CommentsWidget(
+                  CommentsRootWidget(
                     slug: '${widget.username}/${widget.slug}',
                     controller: _controller,
                   ),

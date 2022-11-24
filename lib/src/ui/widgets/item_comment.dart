@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabnews/src/ui/widgets/comments_children.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/extensions/dark_mode.dart';
@@ -36,6 +37,15 @@ class ItemComment extends StatelessWidget {
             body: comment.body!,
             controller: controller,
           ),
+          comment.children!.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: CommentsWidget(
+                    comments: comment.children!,
+                    controller: controller,
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

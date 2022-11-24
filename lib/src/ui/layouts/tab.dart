@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/ui/pages/favorites.dart';
 import 'package:tabnews/src/ui/pages/home.dart';
 import 'package:tabnews/src/ui/pages/profile.dart';
@@ -35,13 +34,9 @@ class _TabLayoutState extends State<TabLayout> {
     return Scaffold(
       extendBody: true,
       appBar: const AppTopBar(),
-      body: RefreshIndicator(
-        color: context.isDarkMode ? Colors.white : Colors.black,
-        onRefresh: () async {},
-        child: IndexedStack(
-          index: _currentPage,
-          children: _pages,
-        ),
+      body: IndexedStack(
+        index: _currentPage,
+        children: _pages,
       ),
       bottomNavigationBar: AppBottomBar(
         onTap: _onItemTapped,

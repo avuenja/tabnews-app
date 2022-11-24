@@ -43,7 +43,7 @@ class _MyContentsPageState extends State<MyContentsPage> {
   Future<void> _getContents(int page) async {
     final content = await api.fetchMyContents(
       page: page,
-      user: UserProvider().user.username!,
+      user: '${UserProvider().user?.username}',
     );
 
     final isLastPage = content.length < _perPage;
@@ -60,6 +60,9 @@ class _MyContentsPageState extends State<MyContentsPage> {
   @override
   Widget build(BuildContext context) {
     return PageLayout(
+      onRefresh: () => Future.sync(
+        () => _pagingController.refresh(),
+      ),
       body: PagedListView<int, Content>(
         padding: const EdgeInsets.all(10.0),
         pagingController: _pagingController,

@@ -34,8 +34,15 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        cursorColor: AppColors.primaryColor,
                         decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.primaryColor,
+                              width: 2.0,
+                            ),
+                          ),
                           hintText: 'Email',
                         ),
                         controller: emailTextController,
@@ -50,8 +57,14 @@ class _LoginPageState extends State<LoginPage> {
                         enableSuggestions: false,
                         autocorrect: false,
                         obscureText: true,
+                        cursorColor: AppColors.primaryColor,
                         decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppColors.primaryColor,
+                              width: 2.0,
+                            ),
+                          ),
                           hintText: 'Senha',
                         ),
                         controller: passwordTextController,
@@ -60,31 +73,42 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(height: 30.0),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all<double>(0.0),
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      AppColors.primaryColor,
-                    ),
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                      Colors.white,
-                    ),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.0),
+                Consumer<UserProvider>(
+                  builder: (context, provider, _) => ElevatedButton(
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all<double>(0.0),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColors.primaryColor.withOpacity(
+                          provider.isLoading ? 0.5 : 1.0,
+                        ),
+                      ),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                        Colors.white,
+                      ),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
                       ),
                     ),
-                  ),
-                  onPressed: () {
-                    Provider.of<UserProvider>(context, listen: false).login(
-                      emailTextController.text,
-                      passwordTextController.text,
-                    );
-                  },
-                  child: Text(
-                    'Login',
-                    style: const TextStyle().copyWith(
-                      fontSize: 16.0,
+                    onPressed: provider.isLoading
+                        ? null
+                        : () {
+                            if (emailTextController.text.isEmpty ||
+                                passwordTextController.text.isEmpty) {
+                              return;
+                            }
+
+                            provider.login(
+                              emailTextController.text,
+                              passwordTextController.text,
+                            );
+                          },
+                    child: Text(
+                      provider.isLoading ? 'Aguarde...' : 'Login',
+                      style: const TextStyle().copyWith(
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                 ),

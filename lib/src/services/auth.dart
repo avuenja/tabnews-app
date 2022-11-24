@@ -22,7 +22,24 @@ class ApiAuth {
     if (response.statusCode == 201) {
       return Auth.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load singular content children');
+      throw Exception('Failed to login');
+    }
+  }
+
+  Future<User> fetchUser(String token) async {
+    final response = await http.get(
+      Uri.parse('$apiUrl/user'),
+      headers: {
+        'Set-Cookie': 'session_id=$token',
+        'Cookie': 'session_id=$token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to get user');
     }
   }
 
