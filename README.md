@@ -47,12 +47,11 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 - [ ] Favoritos (local database)
 - [ ] Opção ler mais taerde (local database)
 
-## Imagens:
+## Showcase:
 
-<img src="https://user-images.githubusercontent.com/5226773/203336200-6d56e78d-2abd-4b2b-b93b-84eb605627f9.PNG" width="300px" alt="Home" />
+![Alpha](https://user-images.githubusercontent.com/5226773/203870853-5f5a3706-b0aa-459a-b46d-1d9ef9bdb2c3.gif)
+
 <img src="https://user-images.githubusercontent.com/5226773/203336162-7af83c42-9ec0-4b6c-8be6-e7be32426527.PNG" width="300px" alt="Home - Dark" />
-<br />
-<img src="https://user-images.githubusercontent.com/5226773/203336407-a25b0d9f-ea7c-4348-895d-d4cf418141e6.PNG" width="300px" alt="Leitura" />
 <img src="https://user-images.githubusercontent.com/5226773/203336292-724ab6e6-d3fe-400a-a1ee-12ef5db0a54c.PNG" width="300px" alt="Leitura - Dark" />
 
 ## Contribuidores
