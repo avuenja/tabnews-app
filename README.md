@@ -56,4 +56,9 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 <img src="https://user-images.githubusercontent.com/5226773/203336162-7af83c42-9ec0-4b6c-8be6-e7be32426527.PNG" width="300px" alt="Home - Dark" />
 <img src="https://user-images.githubusercontent.com/5226773/203336292-724ab6e6-d3fe-400a-a1ee-12ef5db0a54c.PNG" width="300px" alt="Leitura - Dark" />
 
+## Commit das alterações
+
+O projeto utiliza a especificação de [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).  
+O sistema foi configurado com o [lefthook](https://github.com/evilmartians/lefthook), e adiconado as configurações em `lefthook.yml` e criado as configurações das mensagens em `bin/commit_message.dart`.
+
 ## Contribuidores
