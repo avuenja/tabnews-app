@@ -55,40 +55,48 @@ class _ContentPageState extends State<ContentPage> {
       onRefresh: _getContent,
       body: isLoading
           ? const AppProgressIndicator()
-          : SingleChildScrollView(
-              controller: _controller,
+          : Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    '${content.ownerUsername} · ${timeago.format(DateTime.parse(content.publishedAt!), locale: "pt-BR")}',
-                    style: const TextStyle().copyWith(
-                      color: context.isDarkMode
-                          ? Colors.grey.shade400
-                          : Colors.grey.shade700,
+              child: CustomScrollView(
+                controller: _controller,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${content.ownerUsername} · ${timeago.format(DateTime.parse(content.publishedAt!), locale: "pt-BR")}',
+                          style: const TextStyle().copyWith(
+                            color: context.isDarkMode
+                                ? Colors.grey.shade400
+                                : Colors.grey.shade700,
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Text(
+                          content.parentId != null
+                              ? 'Em resposta a...'
+                              : '${content.title}',
+                          style: const TextStyle().copyWith(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        MarkedownReader(
+                          body: '${content.body}',
+                          controller: _controller,
+                        ),
+                        const SizedBox(height: 30.0),
+                        const Divider(),
+                        const SizedBox(height: 30.0),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 10.0),
-                  Text(
-                    content.parentId != null
-                        ? 'Em resposta a...'
-                        : '${content.title}',
-                    style: const TextStyle().copyWith(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w700,
+                  SliverFillRemaining(
+                    child: CommentsRootWidget(
+                      slug: '${widget.username}/${widget.slug}',
+                      controller: _controller,
                     ),
-                  ),
-                  MarkedownReader(
-                    body: '${content.body}',
-                    controller: _controller,
-                  ),
-                  const SizedBox(height: 30.0),
-                  const Divider(),
-                  const SizedBox(height: 30.0),
-                  CommentsRootWidget(
-                    slug: '${widget.username}/${widget.slug}',
-                    controller: _controller,
                   ),
                 ],
               ),
