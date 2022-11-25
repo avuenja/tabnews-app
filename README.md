@@ -1,5 +1,7 @@
 # TabNews App
 
+[![Android APK](https://github.com/avuenja/tabnews-app/actions/workflows/android.yml/badge.svg)](https://github.com/avuenja/tabnews-app/actions/workflows/android.yml)
+
 Aplicativo TabNews feito com muito ♥️ e Flutter, pela comunidade para o site [TabNews](https://www.tabnews.com.br).
 
 ## Instalar e rodar o projeto
