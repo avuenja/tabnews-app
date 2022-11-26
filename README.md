@@ -44,7 +44,7 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 - [x] Gerencimaneto de conta
 - [x] Criação de conta pelo App
 - [ ] Resposta dos conteúdos
-- [ ] Postagens de conteúdos
+- [x] Postagens de conteúdos
 - [ ] Visualização do perfil de outros usuários
 - [ ] Favoritos (local database)
 - [ ] Opção ler mais tarde (local database)

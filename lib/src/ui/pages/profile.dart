@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/pages/my_contents.dart';
+import 'package:tabnews/src/ui/pages/new_content.dart';
 import 'package:tabnews/src/ui/pages/profile_edit.dart';
 import 'package:tabnews/src/utils/navigation.dart';
 
@@ -37,9 +38,9 @@ class _ProfilePageState extends State<ProfilePage> {
             title: const Text('Meu conteúdo'),
           ),
           const Divider(color: Colors.grey),
-          const ListTile(
-            onTap: null,
-            title: Text('Publicar novo conteúdo'),
+          ListTile(
+            onTap: () => Navigation.push(context, const NewContentPage()),
+            title: const Text('Publicar novo conteúdo'),
           ),
           ListTile(
             onTap: () => Navigation.push(context, ProfileEditPage()),
