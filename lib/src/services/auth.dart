@@ -70,4 +70,28 @@ class ApiAuth {
       throw Exception('Failed to get user');
     }
   }
+
+  Future<User> postRegister(
+    String username,
+    String email,
+    String password,
+  ) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/users'),
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'username': username,
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create account');
+    }
+  }
 }

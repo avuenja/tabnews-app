@@ -22,6 +22,7 @@ class UserProvider extends ChangeNotifier {
 
   UserProvider._internal() {
     _isLoading = false;
+    _isRegister = false;
     _loggedIn = Preferences.getBool(_loggedKey) ?? false;
 
     if (_loggedIn) {
@@ -41,6 +42,9 @@ class UserProvider extends ChangeNotifier {
 
   late bool _isLoading;
   bool get isLoading => _isLoading;
+
+  late bool _isRegister;
+  bool get isRegister => _isRegister;
 
   void login(String email, String password) async {
     _loading(true);
@@ -100,6 +104,19 @@ class UserProvider extends ChangeNotifier {
 
       Preferences.setString(_userKey, jsonEncode(user.toJson()));
       _user = user;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  void register(String username, String email, String password) async {
+    _loading(true);
+
+    var register = await api.postRegister(username, email, password);
+
+    if (register.id!.isNotEmpty) {
+      _isRegister = true;
     }
 
     _isLoading = false;
