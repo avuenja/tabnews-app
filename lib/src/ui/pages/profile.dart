@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/pages/my_contents.dart';
+import 'package:tabnews/src/ui/pages/profile_edit.dart';
 import 'package:tabnews/src/utils/navigation.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -40,9 +41,9 @@ class _ProfilePageState extends State<ProfilePage> {
             onTap: null,
             title: Text('Publicar novo conteúdo'),
           ),
-          const ListTile(
-            onTap: null,
-            title: Text('Editar perfil'),
+          ListTile(
+            onTap: () => Navigation.push(context, ProfileEditPage()),
+            title: const Text('Editar perfil'),
           ),
           const Divider(color: Colors.grey),
           ListTile(

@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
 import 'package:tabnews/src/providers/user.dart';
+import 'package:tabnews/src/ui/pages/register.dart';
 import 'package:tabnews/src/ui/widgets/top_bar.dart';
+import 'package:tabnews/src/utils/navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -111,6 +113,23 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                ),
+                const SizedBox(height: 30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('Ainda não possui conta?'),
+                    TextButton(
+                      style: const ButtonStyle().copyWith(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                          AppColors.primaryColor,
+                        ),
+                      ),
+                      onPressed: () => Navigation.push(context, RegisterPage()),
+                      child: const Text('Criar cadastro'),
+                    ),
+                  ],
                 ),
               ],
             ),
