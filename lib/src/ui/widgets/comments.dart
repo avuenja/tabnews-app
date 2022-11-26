@@ -43,7 +43,6 @@ class _CommentsRootWidgetState extends State<CommentsRootWidget> {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
 
     return ListView.separated(
-      shrinkWrap: true,
       controller: widget.controller,
       itemCount: comments.length,
       separatorBuilder: (context, index) => const Divider(),
