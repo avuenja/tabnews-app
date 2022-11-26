@@ -42,12 +42,13 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 - [x] Login do usuário
 - [x] Meus conteúdos
 - [x] Gerencimaneto de conta
-- [ ] Criação de conta pelo App
+- [x] Criação de conta pelo App
 - [ ] Resposta dos conteúdos
 - [ ] Postagens de conteúdos
 - [ ] Visualização do perfil de outros usuários
 - [ ] Favoritos (local database)
-- [ ] Opção ler mais taerde (local database)
+- [ ] Opção ler mais tarde (local database)
+- [ ] Buscar conteúdos (?)
 
 ## Showcase:
 
