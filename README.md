@@ -63,3 +63,5 @@ O projeto utiliza a especificação de [Conventional Commits](https://www.conven
 O sistema foi configurado com o [lefthook](https://github.com/evilmartians/lefthook), e adiconado as configurações em `lefthook.yml` e criado as configurações das mensagens em `bin/commit_message.dart`.
 
 ## Contribuidores
+
+Acesse a página de [Insights](https://github.com/avuenja/tabnews-app/graphs/contributors) do projeto.

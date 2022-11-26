@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tabnews/src/providers/user.dart';
 
 import 'package:tabnews/src/ui/pages/favorites.dart';
 import 'package:tabnews/src/ui/pages/home.dart';
+import 'package:tabnews/src/ui/pages/login.dart';
 import 'package:tabnews/src/ui/pages/profile.dart';
 import 'package:tabnews/src/ui/pages/recents.dart';
 import 'package:tabnews/src/ui/widgets/bottom_bar.dart';
@@ -16,11 +19,14 @@ class TabLayout extends StatefulWidget {
 
 class _TabLayoutState extends State<TabLayout> {
   int _currentPage = 0;
-  static const List<Widget> _pages = [
-    HomePage(),
-    RecentsPage(),
-    FavoritesPage(),
-    ProfilePage(),
+  static final List<Widget> _pages = [
+    const HomePage(),
+    const RecentsPage(),
+    const FavoritesPage(),
+    Consumer<UserProvider>(
+      builder: (context, provider, _) =>
+          provider.loggedIn ? const ProfilePage() : const LoginPage(),
+    ),
   ];
 
   void _onItemTapped(int index) {
