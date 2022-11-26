@@ -41,7 +41,7 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 - [x] Visualização de Comentários das publicações
 - [x] Login do usuário
 - [x] Meus conteúdos
-- [ ] Gerencimaneto de conta
+- [x] Gerencimaneto de conta
 - [ ] Criação de conta pelo App
 - [ ] Resposta dos conteúdos
 - [ ] Postagens de conteúdos
