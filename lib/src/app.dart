@@ -5,7 +5,6 @@ import 'package:tabnews/src/constants.dart';
 import 'package:tabnews/src/providers/content.dart';
 import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/layouts/tab.dart';
-import 'package:tabnews/src/ui/pages/login.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -37,10 +36,7 @@ class App extends StatelessWidget {
             selectionColor: Colors.grey.shade300,
           ),
         ),
-        home: Consumer<UserProvider>(
-          builder: (context, user, _) =>
-              user.loggedIn ? const TabLayout() : const LoginPage(),
-        ),
+        home: const TabLayout(),
       ),
     );
   }
