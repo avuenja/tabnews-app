@@ -79,6 +79,33 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleNotifications(bool? value) {
+    _user?.notifications = value;
+    notifyListeners();
+  }
+
+  void profileUpdate(String email, String username) async {
+    _loading(true);
+
+    var updatedUser = await api.updateUser(
+      token: _sessionId,
+      username: _user?.username,
+      newUsername: _user?.username != username ? username : '',
+      newEmail: _user?.email != email ? email : '',
+      newNotifications: _user?.notifications,
+    );
+
+    if (updatedUser.id != null) {
+      var user = await api.fetchUser(_sessionId);
+
+      Preferences.setString(_userKey, jsonEncode(user.toJson()));
+      _user = user;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
   String _getSessionId() {
     String pref = Preferences.getString(_authKey) ?? '';
 
