@@ -92,4 +92,32 @@ class Api {
       throw Exception('Failed to load my contents');
     }
   }
+
+  Future<Content> postContent(
+    String token,
+    String title,
+    String body,
+    String source,
+  ) async {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Set-Cookie': 'session_id=$token',
+        'Cookie': 'session_id=$token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'title': title,
+        'body': body,
+        'status': 'published',
+        source.isNotEmpty ? 'source_url' : source: null,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return Content.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create a new content');
+    }
+  }
 }

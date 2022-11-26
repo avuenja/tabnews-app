@@ -4,12 +4,12 @@ import 'package:markdown/markdown.dart' as md;
 
 class MarkedownReader extends StatelessWidget {
   final String body;
-  final ScrollController controller;
+  final ScrollController? controller;
 
   const MarkedownReader({
     super.key,
     required this.body,
-    required this.controller,
+    this.controller,
   });
 
   @override
