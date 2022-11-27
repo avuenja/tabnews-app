@@ -25,7 +25,16 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'TabNews',
         debugShowCheckedModeBanner: false,
-        darkTheme: ThemeData.dark(),
+        darkTheme: ThemeData.dark().copyWith(
+          primaryColor: Colors.white,
+          colorScheme: const ColorScheme.light(
+            primary: Colors.white60,
+            secondary: Colors.white60,
+          ),
+          textSelectionTheme: TextSelectionThemeData(
+            selectionColor: Colors.grey.shade700,
+          ),
+        ),
         theme: ThemeData(
           primaryColor: Colors.black,
           colorScheme: const ColorScheme.light(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
+import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/pages/register.dart';
 import 'package:tabnews/src/utils/navigation.dart';
@@ -34,11 +35,15 @@ class _LoginPageState extends State<LoginPage> {
                   Expanded(
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                      cursorColor: AppColors.primaryColor,
-                      decoration: const InputDecoration(
+                      cursorColor: context.isDarkMode
+                          ? Colors.white
+                          : AppColors.primaryColor,
+                      decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.primaryColor,
+                            color: context.isDarkMode
+                                ? Colors.white
+                                : AppColors.primaryColor,
                             width: 2.0,
                           ),
                         ),
@@ -56,11 +61,15 @@ class _LoginPageState extends State<LoginPage> {
                       enableSuggestions: false,
                       autocorrect: false,
                       obscureText: true,
-                      cursorColor: AppColors.primaryColor,
-                      decoration: const InputDecoration(
+                      cursorColor: context.isDarkMode
+                          ? Colors.white
+                          : AppColors.primaryColor,
+                      decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.primaryColor,
+                            color: context.isDarkMode
+                                ? Colors.white
+                                : AppColors.primaryColor,
                             width: 2.0,
                           ),
                         ),
@@ -116,11 +125,17 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text('Ainda não possui conta?'),
+                  Text(
+                    'Ainda não possui conta?',
+                    style:
+                        const TextStyle().copyWith(color: Colors.grey.shade600),
+                  ),
                   TextButton(
                     style: const ButtonStyle().copyWith(
                       foregroundColor: MaterialStateProperty.all<Color>(
-                        AppColors.primaryColor,
+                        context.isDarkMode
+                            ? Colors.white
+                            : AppColors.primaryColor,
                       ),
                     ),
                     onPressed: () => Navigation.push(context, RegisterPage()),

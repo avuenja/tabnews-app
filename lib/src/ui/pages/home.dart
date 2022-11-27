@@ -8,7 +8,9 @@ import 'package:tabnews/src/ui/widgets/item_content.dart';
 import 'package:tabnews/src/ui/widgets/progress_indicator.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final ScrollController scrollController;
+
+  const HomePage({super.key, required this.scrollController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -63,6 +65,7 @@ class _HomePageState extends State<HomePage> {
       child: PagedListView<int, Content>(
         padding: const EdgeInsets.all(10.0),
         pagingController: _pagingController,
+        scrollController: widget.scrollController,
         builderDelegate: PagedChildBuilderDelegate<Content>(
           itemBuilder: (context, item, index) {
             return ItemContent(index: index, content: item);

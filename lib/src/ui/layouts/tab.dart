@@ -18,10 +18,15 @@ class TabLayout extends StatefulWidget {
 }
 
 class _TabLayoutState extends State<TabLayout> {
+  List<ScrollController> pagesScrollController = [
+    ScrollController(),
+    ScrollController(),
+  ];
+
   int _currentPage = 0;
-  static final List<Widget> _pages = [
-    const HomePage(),
-    const RecentsPage(),
+  late final List<Widget> _pages = [
+    HomePage(scrollController: pagesScrollController[0]),
+    RecentsPage(scrollController: pagesScrollController[1]),
     const FavoritesPage(),
     Consumer<UserProvider>(
       builder: (context, provider, _) =>
@@ -31,7 +36,17 @@ class _TabLayoutState extends State<TabLayout> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _currentPage = index;
+      if (index != _currentPage) {
+        _currentPage = index;
+      } else {
+        pagesScrollController[_currentPage].animateTo(
+          0,
+          duration: const Duration(
+            milliseconds: 500,
+          ),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
     });
   }
 
