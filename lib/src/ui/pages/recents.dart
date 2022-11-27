@@ -8,7 +8,9 @@ import 'package:tabnews/src/ui/widgets/item_content.dart';
 import 'package:tabnews/src/ui/widgets/progress_indicator.dart';
 
 class RecentsPage extends StatefulWidget {
-  const RecentsPage({super.key});
+  final ScrollController scrollController;
+
+  const RecentsPage({super.key, required this.scrollController});
 
   @override
   State<RecentsPage> createState() => _RecentsPageState();
@@ -63,6 +65,7 @@ class _RecentsPageState extends State<RecentsPage> {
       child: PagedListView<int, Content>(
         padding: const EdgeInsets.all(10.0),
         pagingController: _pagingController,
+        scrollController: widget.scrollController,
         builderDelegate: PagedChildBuilderDelegate<Content>(
           itemBuilder: (context, item, index) {
             return ItemContent(index: index, content: item);

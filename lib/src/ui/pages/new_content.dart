@@ -4,6 +4,7 @@ import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
+import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/providers/content.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
 import 'package:tabnews/src/ui/pages/my_contents.dart';
@@ -48,11 +49,15 @@ class _NewContentPageState extends State<NewContentPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
-                  cursorColor: AppColors.primaryColor,
-                  decoration: const InputDecoration(
+                  cursorColor: context.isDarkMode
+                      ? Colors.white
+                      : AppColors.primaryColor,
+                  decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: AppColors.primaryColor,
+                        color: context.isDarkMode
+                            ? Colors.white
+                            : AppColors.primaryColor,
                         width: 2.0,
                       ),
                     ),
@@ -89,11 +94,15 @@ class _NewContentPageState extends State<NewContentPage> {
                 ),
                 const SizedBox(height: 15.0),
                 TextFormField(
-                  cursorColor: AppColors.primaryColor,
-                  decoration: const InputDecoration(
+                  cursorColor: context.isDarkMode
+                      ? Colors.white
+                      : AppColors.primaryColor,
+                  decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: AppColors.primaryColor,
+                        color: context.isDarkMode
+                            ? Colors.white
+                            : AppColors.primaryColor,
                         width: 2.0,
                       ),
                     ),
