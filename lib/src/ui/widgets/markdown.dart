@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 
+import 'package:tabnews/src/utils/open_link.dart';
+
 class MarkedownReader extends StatelessWidget {
   final String body;
   final ScrollController? controller;
@@ -23,16 +25,13 @@ class MarkedownReader extends StatelessWidget {
       controller: controller,
       data: body,
       selectable: true,
+      onTapLink: (text, href, title) async {
+        OpenLink.open(href, context);
+      },
       extensionSet: md.ExtensionSet(
-        md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+        md.ExtensionSet.gitHubWeb.blockSyntaxes,
         [
-          ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
-          md.LineBreakSyntax(),
-          md.LinkSyntax(),
-          md.EmojiSyntax(),
-          md.InlineHtmlSyntax(),
-          md.ImageSyntax(),
-          md.AutolinkExtensionSyntax(),
+          ...md.ExtensionSet.gitHubWeb.inlineSyntaxes,
         ],
       ),
     );
