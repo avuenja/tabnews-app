@@ -2,7 +2,25 @@
 
 [![Android APK](https://github.com/avuenja/tabnews-app/actions/workflows/android.yml/badge.svg)](https://github.com/avuenja/tabnews-app/actions/workflows/android.yml)
 
-Aplicativo TabNews feito com muito ♥️ e Flutter, pela comunidade para o site [TabNews](https://www.tabnews.com.br).
+Aplicativo TabNews feito com muito ♥️ e Flutter pela comunidade, para o site [TabNews](https://www.tabnews.com.br).
+
+## Features:
+
+- [x] Dark mode
+- [x] Leitura de conteúdos
+- [x] Pull To Refresh
+- [x] Infite Scroll
+- [x] Visualização de Comentários das publicações
+- [x] Login do usuário
+- [x] Meus conteúdos
+- [x] Gerencimaneto de conta
+- [x] Criação de conta pelo App
+- [ ] Resposta dos conteúdos
+- [x] Postagens de conteúdos
+- [x] Visualização do perfil de outros usuários
+- [x] Favoritos (local database)
+- [ ] Opção ler mais tarde (local database)
+- [ ] Buscar conteúdos (?)
 
 ## Instalar e rodar o projeto
 
@@ -32,23 +50,21 @@ Isto irá rodar o projeto no seu emulador/simulador ou dispositivo real conectad
 
 **Lembrando que as vezes é necessário abrir o emulador/simulador antes de rodar o comando de run.**
 
-## Features:
+### Buildar o projeto
 
-- [x] Dark mode
-- [x] Leitura de conteúdos
-- [x] Pull To Refresh
-- [x] Infite Scroll
-- [x] Visualização de Comentários das publicações
-- [x] Login do usuário
-- [x] Meus conteúdos
-- [x] Gerencimaneto de conta
-- [x] Criação de conta pelo App
-- [ ] Resposta dos conteúdos
-- [x] Postagens de conteúdos
-- [x] Visualização do perfil de outros usuários
-- [ ] Favoritos (local database)
-- [ ] Opção ler mais tarde (local database)
-- [ ] Buscar conteúdos (?)
+Para buildar o projeto, basta rodar o seguitne comando:
+
+**Android APK**
+
+```
+flutter build apk
+```
+
+Diretório de saída do APK: _(build/app/outputs/flutter-apk/app-release.apk)_
+
+**Apple iOS**
+
+_Sugiro buildar diretamente pelo **Xcode**, selecionando seu dispositivo como device. E também para utilizar sem a conexão USB, é necessário buildar utilizando o mode **Profile**_
 
 ## Showcase:
 
