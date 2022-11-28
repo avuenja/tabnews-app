@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
+import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/widgets/top_bar.dart';
 
@@ -21,7 +22,7 @@ class RegisterPage extends StatelessWidget {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(30.0),
             child: Consumer<UserProvider>(
               builder: (context, provider, _) => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -46,11 +47,15 @@ class RegisterPage extends StatelessWidget {
                               child: TextFormField(
                                 enableSuggestions: false,
                                 autocorrect: false,
-                                cursorColor: AppColors.primaryColor,
-                                decoration: const InputDecoration(
+                                cursorColor: context.isDarkMode
+                                    ? Colors.white
+                                    : AppColors.primaryColor,
+                                decoration: InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: AppColors.primaryColor,
+                                      color: context.isDarkMode
+                                          ? Colors.white
+                                          : AppColors.primaryColor,
                                       width: 2.0,
                                     ),
                                   ),
@@ -66,11 +71,15 @@ class RegisterPage extends StatelessWidget {
                             Expanded(
                               child: TextFormField(
                                 keyboardType: TextInputType.emailAddress,
-                                cursorColor: AppColors.primaryColor,
-                                decoration: const InputDecoration(
+                                cursorColor: context.isDarkMode
+                                    ? Colors.white
+                                    : AppColors.primaryColor,
+                                decoration: InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: AppColors.primaryColor,
+                                      color: context.isDarkMode
+                                          ? Colors.white
+                                          : AppColors.primaryColor,
                                       width: 2.0,
                                     ),
                                   ),
@@ -88,11 +97,15 @@ class RegisterPage extends StatelessWidget {
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 obscureText: true,
-                                cursorColor: AppColors.primaryColor,
-                                decoration: const InputDecoration(
+                                cursorColor: context.isDarkMode
+                                    ? Colors.white
+                                    : AppColors.primaryColor,
+                                decoration: InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: AppColors.primaryColor,
+                                      color: context.isDarkMode
+                                          ? Colors.white
+                                          : AppColors.primaryColor,
                                       width: 2.0,
                                     ),
                                   ),
