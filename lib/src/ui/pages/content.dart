@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tabnews/src/providers/favorites.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/extensions/dark_mode.dart';
@@ -53,6 +55,22 @@ class _ContentPageState extends State<ContentPage> {
 
     return PageLayout(
       onRefresh: _getContent,
+      actions: isLoading
+          ? null
+          : [
+              Consumer<FavoritesProvider>(
+                builder: (context, provider, _) => IconButton(
+                  onPressed: () => provider.toggle(
+                    content,
+                  ),
+                  icon: Icon(
+                    provider.isFavorited(content.id!)
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                  ),
+                ),
+              ),
+            ],
       body: isLoading
           ? const AppProgressIndicator()
           : Padding(

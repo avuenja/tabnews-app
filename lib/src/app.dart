@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
 import 'package:tabnews/src/providers/content.dart';
+import 'package:tabnews/src/providers/favorites.dart';
 import 'package:tabnews/src/providers/user.dart';
 import 'package:tabnews/src/ui/layouts/tab.dart';
 
@@ -20,6 +21,10 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(
           lazy: false,
           create: (_) => ContentProvider(),
+        ),
+        ChangeNotifierProvider(
+          lazy: false,
+          create: (_) => FavoritesProvider(),
         ),
       ],
       child: MaterialApp(

@@ -8,12 +8,10 @@ import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
 
 class ItemContent extends StatelessWidget {
-  final int index;
   final Content content;
 
   const ItemContent({
     super.key,
-    required this.index,
     required this.content,
   });
 
@@ -47,28 +45,12 @@ class ItemContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  '${index + 1}.',
-                  style: const TextStyle().copyWith(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(width: 10.0),
-                Flexible(
-                  child: Text(
-                    isComment ? '${content.body}' : '${content.title}',
-                    style: const TextStyle().copyWith(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
+            Text(
+              isComment ? '${content.body}' : '${content.title}',
+              style: const TextStyle().copyWith(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 15.0),
             Column(

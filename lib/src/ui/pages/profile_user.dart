@@ -100,7 +100,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate<Content>(
                       itemBuilder: (context, item, index) {
-                        return ItemContent(index: index, content: item);
+                        return ItemContent(content: item);
                       },
                       firstPageProgressIndicatorBuilder: (_) =>
                           const AppProgressIndicator(),

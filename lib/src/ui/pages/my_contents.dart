@@ -69,7 +69,6 @@ class _MyContentsPageState extends State<MyContentsPage> {
         builderDelegate: PagedChildBuilderDelegate<Content>(
           itemBuilder: (context, item, index) {
             return ItemContent(
-              index: index,
               content: item,
             );
           },
