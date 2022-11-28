@@ -68,7 +68,7 @@ class _RecentsPageState extends State<RecentsPage> {
         scrollController: widget.scrollController,
         builderDelegate: PagedChildBuilderDelegate<Content>(
           itemBuilder: (context, item, index) {
-            return ItemContent(index: index, content: item);
+            return ItemContent(content: item);
           },
           firstPageProgressIndicatorBuilder: (_) =>
               const AppProgressIndicator(),

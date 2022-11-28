@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tabnews/src/constants.dart';
 
 class AppTopBar extends StatelessWidget with PreferredSizeWidget {
-  const AppTopBar({super.key});
+  final List<Widget>? actions;
+
+  const AppTopBar({super.key, this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class AppTopBar extends StatelessWidget with PreferredSizeWidget {
       ),
       elevation: 0,
       backgroundColor: AppColors.primaryColor,
+      actions: actions,
     );
   }
 
