@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:tabnews/src/models/auth.dart';
-import 'package:tabnews/src/models/user.dart';
+import 'package:tabnews/src/services/http_response.dart';
 
-class ApiAuth {
+class AuthService {
   final apiUrl = 'https://www.tabnews.com.br/api/v1';
 
-  Future<Auth> postLogin(String email, String password) async {
+  Future<HttpResponse> postLogin(String email, String password) async {
     final response = await http.post(
       Uri.parse('$apiUrl/sessions'),
       headers: {
@@ -19,14 +18,10 @@ class ApiAuth {
       }),
     );
 
-    if (response.statusCode == 201) {
-      return Auth.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to login');
-    }
+    return HttpResponse(response.statusCode, response.body);
   }
 
-  Future<User> fetchUser(String token) async {
+  Future<HttpResponse> fetchUser(String token) async {
     final response = await http.get(
       Uri.parse('$apiUrl/user'),
       headers: {
@@ -36,14 +31,10 @@ class ApiAuth {
       },
     );
 
-    if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to get user');
-    }
+    return HttpResponse(response.statusCode, response.body);
   }
 
-  Future<User> updateUser({
+  Future<HttpResponse> updateUser({
     required String token,
     required String? username,
     required String newUsername,
@@ -64,14 +55,10 @@ class ApiAuth {
       }),
     );
 
-    if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to get user');
-    }
+    return HttpResponse(response.statusCode, response.body);
   }
 
-  Future<User> postRegister(
+  Future<HttpResponse> postRegister(
     String username,
     String email,
     String password,
@@ -88,10 +75,6 @@ class ApiAuth {
       }),
     );
 
-    if (response.statusCode == 201) {
-      return User.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to create account');
-    }
+    return HttpResponse(response.statusCode, response.body);
   }
 }

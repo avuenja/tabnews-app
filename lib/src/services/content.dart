@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:tabnews/src/models/comment.dart';
 
 import 'package:tabnews/src/models/content.dart';
+import 'package:tabnews/src/services/http_response.dart';
 
-class Api {
+class ContentService {
   final apiUrl = 'https://www.tabnews.com.br/api/v1/contents';
 
   Future<List<Content>> fetchContents({int page = 1}) async {
@@ -93,7 +94,7 @@ class Api {
     }
   }
 
-  Future<Content> postContent(
+  Future<HttpResponse> postContent(
     String token,
     String title,
     String body,
@@ -114,10 +115,6 @@ class Api {
       }),
     );
 
-    if (response.statusCode == 201) {
-      return Content.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to create a new content');
-    }
+    return HttpResponse<Content>(response.statusCode, response.body);
   }
 }

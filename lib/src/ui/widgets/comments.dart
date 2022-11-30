@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/models/comment.dart';
-import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/widgets/item_comment.dart';
 
 class CommentsRootWidget extends StatefulWidget {
@@ -21,7 +21,7 @@ class CommentsRootWidget extends StatefulWidget {
 
 class _CommentsRootWidgetState extends State<CommentsRootWidget> {
   List<Comment> comments = [];
-  final api = Api();
+  final api = ContentService();
 
   @override
   void initState() {

@@ -3,7 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
-import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/widgets/item_content.dart';
 import 'package:tabnews/src/ui/widgets/progress_indicator.dart';
 
@@ -18,7 +18,7 @@ class RecentsPage extends StatefulWidget {
 
 class _RecentsPageState extends State<RecentsPage> {
   late List<Content> contents;
-  final api = Api();
+  final _contentService = ContentService();
   bool isLoading = true;
   static const _perPage = 30;
 
@@ -42,7 +42,7 @@ class _RecentsPageState extends State<RecentsPage> {
   }
 
   Future<void> _getContents(int page) async {
-    final content = await api.fetchContentsNew(page: page);
+    final content = await _contentService.fetchContentsNew(page: page);
 
     final isLastPage = content.length < _perPage;
 

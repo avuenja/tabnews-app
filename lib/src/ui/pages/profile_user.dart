@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:tabnews/src/models/content.dart';
 import 'package:tabnews/src/models/user.dart';
-import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/services/user.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
 import 'package:tabnews/src/ui/widgets/item_content.dart';
@@ -19,7 +20,7 @@ class ProfileUserPage extends StatefulWidget {
 
 class _ProfileUserPageState extends State<ProfileUserPage> {
   final userService = UserService();
-  final contentService = Api();
+  final _contentService = ContentService();
   bool _isLoading = true;
   late User _user;
 
@@ -48,7 +49,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   }
 
   Future<void> _getContents(int page) async {
-    final content = await contentService.fetchMyContents(
+    final content = await _contentService.fetchMyContents(
       page: page,
       user: widget.username,
     );

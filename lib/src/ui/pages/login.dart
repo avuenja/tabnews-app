@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
+import 'package:tabnews/src/controllers/auth.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
-import 'package:tabnews/src/providers/user.dart';
+import 'package:tabnews/src/interfaces/view_action.dart';
 import 'package:tabnews/src/ui/pages/register.dart';
 import 'package:tabnews/src/utils/navigation.dart';
 
@@ -14,10 +14,31 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> implements ViewAction {
+  late final AuthController _authController;
+
+  final _formKey = GlobalKey<FormState>();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _authController = AuthController(this);
+  }
+
+  @override
+  onSuccess({data}) {}
+
+  @override
+  onError({required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,44 +102,40 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               const SizedBox(height: 30.0),
-              Consumer<UserProvider>(
-                builder: (context, provider, _) => ElevatedButton(
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all<double>(0.0),
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      AppColors.primaryColor.withOpacity(
-                        provider.isLoading ? 0.5 : 1.0,
+              ValueListenableBuilder(
+                valueListenable: _authController.isLoading,
+                builder: (context, isLoading, child) {
+                  return ElevatedButton(
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all<double>(0.0),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        AppColors.primaryColor.withOpacity(
+                          isLoading ? 0.5 : 1.0,
+                        ),
+                      ),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                        Colors.white,
+                      ),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
                       ),
                     ),
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                      Colors.white,
-                    ),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4.0),
+                    onPressed: isLoading
+                        ? null
+                        : () => _authController.login(
+                              emailTextController.text,
+                              passwordTextController.text,
+                            ),
+                    child: Text(
+                      isLoading ? 'Aguarde...' : 'Login',
+                      style: const TextStyle().copyWith(
+                        fontSize: 16.0,
                       ),
                     ),
-                  ),
-                  onPressed: provider.isLoading
-                      ? null
-                      : () {
-                          if (emailTextController.text.isEmpty ||
-                              passwordTextController.text.isEmpty) {
-                            return;
-                          }
-
-                          provider.login(
-                            emailTextController.text,
-                            passwordTextController.text,
-                          );
-                        },
-                  child: Text(
-                    provider.isLoading ? 'Aguarde...' : 'Login',
-                    style: const TextStyle().copyWith(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
               const SizedBox(height: 30.0),
               Row(
@@ -127,8 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text(
                     'Ainda não possui conta?',
-                    style:
-                        const TextStyle().copyWith(color: Colors.grey.shade600),
+                    style: const TextStyle().copyWith(
+                      color: Colors.grey.shade600,
+                    ),
                   ),
                   TextButton(
                     style: const ButtonStyle().copyWith(
@@ -138,7 +156,10 @@ class _LoginPageState extends State<LoginPage> {
                             : AppColors.primaryColor,
                       ),
                     ),
-                    onPressed: () => Navigation.push(context, RegisterPage()),
+                    onPressed: () => Navigation.push(
+                      context,
+                      const RegisterPage(),
+                    ),
                     child: const Text('Criar cadastro'),
                   ),
                 ],

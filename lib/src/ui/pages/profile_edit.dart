@@ -1,20 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
-import 'package:tabnews/src/providers/user.dart';
+import 'package:tabnews/src/controllers/app.dart';
+import 'package:tabnews/src/controllers/user.dart';
+import 'package:tabnews/src/interfaces/view_action.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
 
-class ProfileEditPage extends StatelessWidget {
-  ProfileEditPage({super.key});
+class ProfileEditPage extends StatefulWidget {
+  const ProfileEditPage({super.key});
 
+  @override
+  State<ProfileEditPage> createState() => _ProfileEditPageState();
+}
+
+class _ProfileEditPageState extends State<ProfileEditPage>
+    implements ViewAction {
+  late final UserController _userController;
+
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController usernameTextController = TextEditingController(
-    text: UserProvider().user?.username,
+    text: AppController.user.value.username,
   );
   final TextEditingController emailTextController = TextEditingController(
-    text: UserProvider().user?.email,
+    text: AppController.user.value.email,
   );
-  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _userController = UserController(this);
+  }
+
+  @override
+  onSuccess({data}) {}
+
+  @override
+  onError({required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +50,7 @@ class ProfileEditPage extends StatelessWidget {
       onRefresh: () async {},
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(30.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -64,64 +92,56 @@ class ProfileEditPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Checkbox(
-                      fillColor: MaterialStateProperty.all<Color>(
-                        AppColors.primaryColor,
-                      ),
-                      value: UserProvider().user?.notifications,
-                      onChanged: Provider.of<UserProvider>(context)
-                          .toggleNotifications,
+                    ValueListenableBuilder(
+                      valueListenable: _userController.notification,
+                      builder: (context, notifications, child) {
+                        return Checkbox(
+                          fillColor: MaterialStateProperty.all<Color>(
+                            AppColors.primaryColor,
+                          ),
+                          value: notifications,
+                          onChanged: _userController.setNotifications,
+                        );
+                      },
                     ),
                     const Text('Receber notificações por email'),
                   ],
                 ),
                 const SizedBox(height: 30.0),
-                Consumer<UserProvider>(
-                  builder: (context, provider, _) => ElevatedButton(
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all<double>(0.0),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColors.primaryColor.withOpacity(
-                          provider.isLoading ? 0.5 : 1.0,
+                ValueListenableBuilder(
+                  valueListenable: _userController.isLoading,
+                  builder: (context, isLoading, child) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all<double>(0.0),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          AppColors.primaryColor.withOpacity(
+                            isLoading ? 0.5 : 1.0,
+                          ),
+                        ),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                          Colors.white,
+                        ),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
                         ),
                       ),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white,
-                      ),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: provider.isLoading
-                        ? null
-                        : () {
-                            if (emailTextController.text.isEmpty ||
-                                usernameTextController.text.isEmpty) {
-                              return;
-                            }
-
-                            provider.profileUpdate(
-                              emailTextController.text,
-                              usernameTextController.text,
-                            );
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Perfil atualizado com sucesso!',
-                                ),
+                      onPressed: isLoading
+                          ? null
+                          : () => _userController.update(
+                                usernameTextController.text,
+                                emailTextController.text,
                               ),
-                            );
-                          },
-                    child: Text(
-                      provider.isLoading ? 'Aguarde...' : 'Salvar',
-                      style: const TextStyle().copyWith(
-                        fontSize: 16.0,
+                      child: Text(
+                        isLoading ? 'Aguarde...' : 'Salvar',
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.0,
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
