@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tabnews/src/providers/user.dart';
 
+import 'package:tabnews/src/controllers/app.dart';
 import 'package:tabnews/src/ui/pages/favorites.dart';
 import 'package:tabnews/src/ui/pages/home.dart';
 import 'package:tabnews/src/ui/pages/login.dart';
@@ -28,9 +27,11 @@ class _TabLayoutState extends State<TabLayout> {
     HomePage(scrollController: pagesScrollController[0]),
     RecentsPage(scrollController: pagesScrollController[1]),
     const FavoritesPage(),
-    Consumer<UserProvider>(
-      builder: (context, provider, _) =>
-          provider.loggedIn ? const ProfilePage() : const LoginPage(),
+    ValueListenableBuilder(
+      valueListenable: AppController.isLoggedIn,
+      builder: (context, isLoggedIn, child) {
+        return isLoggedIn ? const ProfilePage() : const LoginPage();
+      },
     ),
   ];
 

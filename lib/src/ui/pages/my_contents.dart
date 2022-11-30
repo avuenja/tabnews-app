@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import 'package:tabnews/src/controllers/app.dart';
 import 'package:tabnews/src/models/content.dart';
-import 'package:tabnews/src/providers/user.dart';
-import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
 import 'package:tabnews/src/ui/widgets/item_content.dart';
 import 'package:tabnews/src/ui/widgets/progress_indicator.dart';
@@ -17,7 +17,7 @@ class MyContentsPage extends StatefulWidget {
 
 class _MyContentsPageState extends State<MyContentsPage> {
   late List<Content> contents;
-  final api = Api();
+  final _contentService = ContentService();
   bool isLoading = true;
   static const _perPage = 30;
 
@@ -41,9 +41,9 @@ class _MyContentsPageState extends State<MyContentsPage> {
   }
 
   Future<void> _getContents(int page) async {
-    final content = await api.fetchMyContents(
+    final content = await _contentService.fetchMyContents(
       page: page,
-      user: '${UserProvider().user?.username}',
+      user: '${AppController.user.value.username}',
     );
 
     final isLastPage = content.length < _perPage;

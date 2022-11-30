@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_editable_textinput/format_markdown.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
-import 'package:provider/provider.dart';
 
 import 'package:tabnews/src/constants.dart';
+import 'package:tabnews/src/controllers/content.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
-import 'package:tabnews/src/providers/content.dart';
+import 'package:tabnews/src/interfaces/view_action.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
 import 'package:tabnews/src/ui/pages/my_contents.dart';
 import 'package:tabnews/src/ui/widgets/markdown.dart';
@@ -18,13 +18,45 @@ class NewContentPage extends StatefulWidget {
   State<NewContentPage> createState() => _NewContentPageState();
 }
 
-class _NewContentPageState extends State<NewContentPage> {
+class _NewContentPageState extends State<NewContentPage> implements ViewAction {
+  late final ContentController _contentController;
+
   TextEditingController titleTextController = TextEditingController();
   TextEditingController bodyTextController = TextEditingController();
   TextEditingController sourceTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   bool isViewMarkdown = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _contentController = ContentController(this);
+  }
+
+  @override
+  onSuccess({data}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Conteúdo publicado com sucesso!',
+        ),
+      ),
+    );
+
+    Navigation.pop(context);
+    Navigation.push(context, const MyContentsPage());
+  }
+
+  @override
+  onError({required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -111,56 +143,41 @@ class _NewContentPageState extends State<NewContentPage> {
                   controller: sourceTextController,
                 ),
                 const SizedBox(height: 30.0),
-                Consumer<ContentProvider>(
-                  builder: (context, provider, _) => ElevatedButton(
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all<double>(0.0),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColors.primaryColor.withOpacity(
-                          provider.isLoading ? 0.5 : 1.0,
+                ValueListenableBuilder(
+                  valueListenable: _contentController.isLoading,
+                  builder: (context, isLoading, child) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all<double>(0.0),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          AppColors.primaryColor.withOpacity(
+                            isLoading ? 0.5 : 1.0,
+                          ),
+                        ),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                          Colors.white,
+                        ),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
                         ),
                       ),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white,
-                      ),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: provider.isLoading
-                        ? null
-                        : () {
-                            if (titleTextController.text.isEmpty ||
-                                bodyTextController.text.isEmpty) {
-                              return;
-                            }
-
-                            provider.create(
-                              titleTextController.text,
-                              bodyTextController.text,
-                              sourceTextController.text,
-                            );
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Conteúdo publicado com sucesso!',
-                                ),
+                      onPressed: isLoading
+                          ? null
+                          : () => _contentController.create(
+                                titleTextController.text,
+                                bodyTextController.text,
+                                sourceTextController.text,
                               ),
-                            );
-
-                            Navigation.pop(context);
-                            Navigation.push(context, const MyContentsPage());
-                          },
-                    child: Text(
-                      provider.isLoading ? 'Aguarde...' : 'Publicar',
-                      style: const TextStyle().copyWith(
-                        fontSize: 16.0,
+                      child: Text(
+                        isLoading ? 'Aguarde...' : 'Publicar',
+                        style: const TextStyle().copyWith(
+                          fontSize: 16.0,
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/models/comment.dart';
-import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/widgets/item_comment.dart';
 
 class CommentsWidget extends StatefulWidget {
@@ -20,7 +20,7 @@ class CommentsWidget extends StatefulWidget {
 }
 
 class _CommentsWidgetState extends State<CommentsWidget> {
-  final api = Api();
+  final api = ContentService();
 
   @override
   Widget build(BuildContext context) {

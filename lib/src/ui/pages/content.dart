@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tabnews/src/providers/favorites.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import 'package:tabnews/src/controllers/favorites.dart';
+import 'package:tabnews/src/utils/open_link.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
-import 'package:tabnews/src/services/api.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/widgets/markdown.dart';
 import 'package:tabnews/src/ui/widgets/comments.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
@@ -26,8 +26,10 @@ class ContentPage extends StatefulWidget {
 }
 
 class _ContentPageState extends State<ContentPage> {
+  final FavoritesController _favoritesController = FavoritesController();
+
   Content content = Content.fromJson({});
-  final api = Api();
+  final _contentService = ContentService();
   final ScrollController _controller = ScrollController();
   bool isLoading = true;
 
@@ -39,7 +41,7 @@ class _ContentPageState extends State<ContentPage> {
   }
 
   Future<void> _getContent() async {
-    var contentResp = await api.fetchContent(
+    var contentResp = await _contentService.fetchContent(
       '${widget.username}/${widget.slug}',
     );
 
@@ -58,16 +60,21 @@ class _ContentPageState extends State<ContentPage> {
       actions: isLoading
           ? null
           : [
-              Consumer<FavoritesProvider>(
-                builder: (context, provider, _) => IconButton(
-                  onPressed: () => provider.toggle(
-                    content,
-                  ),
-                  icon: Icon(
-                    provider.isFavorited(content.id!)
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                  ),
+              IconButton(
+                onPressed: () => _favoritesController.toggle(
+                  content,
+                ),
+                icon: ValueListenableBuilder(
+                  valueListenable: _favoritesController.favorites,
+                  builder: (context, favorites, child) {
+                    bool isFavorited = favorites
+                        .where((element) => element.id == content.id)
+                        .isNotEmpty;
+
+                    return Icon(
+                      isFavorited ? Icons.favorite : Icons.favorite_border,
+                    );
+                  },
                 ),
               ),
             ],
@@ -104,6 +111,31 @@ class _ContentPageState extends State<ContentPage> {
                           body: '${content.body}',
                           controller: _controller,
                         ),
+                        content.sourceUrl != null
+                            ? Row(
+                                children: [
+                                  Text(
+                                    'Fonte: ',
+                                    style: const TextStyle().copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () => OpenLink.open(
+                                      content.sourceUrl,
+                                      context,
+                                    ),
+                                    child: Text(
+                                      '${content.sourceUrl}',
+                                      style: const TextStyle().copyWith(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
                         const SizedBox(height: 30.0),
                         const Divider(),
                         const SizedBox(height: 30.0),
