@@ -44,6 +44,7 @@ dependencies:
   markdown: ^6.0.1
   markdown_editable_textinput: ^2.1.0
   url_launcher: ^6.1.7
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +70,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/assets/
-  #   - images/a_dot_ham.jpeg
+    - .env.dev
+    - .env.prod
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
