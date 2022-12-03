@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tabnews/src/enviroment_vars.dart';
 import 'package:tabnews/src/models/comment.dart';
 
 import 'package:tabnews/src/models/content.dart';
 import 'package:tabnews/src/services/http_response.dart';
 
 class ContentService {
-  final apiUrl = 'https://www.tabnews.com.br/api/v1/contents';
+  String get apiUrl => "${EnviromentVars.getVars.webserver}/api/v1/contents";
 
   Future<List<Content>> fetchContents({int page = 1}) async {
     final response = await http.get(Uri.parse('$apiUrl?page=$page'));

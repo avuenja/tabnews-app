@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tabnews/src/enviroment_vars.dart';
 
 import 'package:tabnews/src/services/http_response.dart';
 
 class AuthService {
-  final apiUrl = 'https://www.tabnews.com.br/api/v1';
+  String get apiUrl => '${EnviromentVars.getVars.webserver}/api/v1';
 
   Future<HttpResponse> postLogin(String email, String password) async {
     final response = await http.post(
