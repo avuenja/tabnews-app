@@ -14,6 +14,7 @@ class Content {
   String? ownerUsername;
   int? tabcoins;
   int? childrenDeepCount;
+  Content? parent;
 
   Content({
     this.id,
@@ -31,6 +32,7 @@ class Content {
     this.ownerUsername,
     this.tabcoins,
     this.childrenDeepCount,
+    this.parent,
   });
 
   Content.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class Content {
     tabcoins = json['tabcoins'];
     ownerUsername = json['owner_username'];
     childrenDeepCount = json['children_deep_count'];
+    parent = json['parent'];
   }
 
   Map<String, dynamic> toJson() {
@@ -69,6 +72,7 @@ class Content {
     data['tabcoins'] = tabcoins;
     data['owner_username'] = ownerUsername;
     data['children_deep_count'] = childrenDeepCount;
+    data['parent'] = parent;
 
     return data;
   }

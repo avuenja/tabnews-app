@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tabnews/src/controllers/content.dart';
+import 'package:tabnews/src/interfaces/view_action.dart';
+import 'package:tabnews/src/ui/widgets/source_url.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:tabnews/src/controllers/favorites.dart';
-import 'package:tabnews/src/utils/open_link.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
-import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/widgets/markdown.dart';
 import 'package:tabnews/src/ui/widgets/comments.dart';
 import 'package:tabnews/src/ui/layouts/page.dart';
@@ -25,30 +26,54 @@ class ContentPage extends StatefulWidget {
   State<ContentPage> createState() => _ContentPageState();
 }
 
-class _ContentPageState extends State<ContentPage> {
+class _ContentPageState extends State<ContentPage> implements ViewAction {
   final FavoritesController _favoritesController = FavoritesController();
+  late ContentController _contentController;
 
   Content content = Content.fromJson({});
-  final _contentService = ContentService();
   final ScrollController _controller = ScrollController();
   bool isLoading = true;
+
+  String get slug => '${widget.username}/${widget.slug}';
 
   @override
   void initState() {
     super.initState();
 
+    _contentController = ContentController(this);
     _getContent();
   }
 
-  Future<void> _getContent() async {
-    var contentResp = await _contentService.fetchContent(
-      '${widget.username}/${widget.slug}',
+  @override
+  onError({required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
     );
+  }
 
+  @override
+  onSuccess({data}) {
     setState(() {
-      content = contentResp;
+      content = Content.fromJson(data);
       isLoading = false;
     });
+  }
+
+  _getContent() {
+    _contentController.getContent(slug);
+  }
+
+  String _getTitleParent(Content parent) {
+    if (content.parentId != null) {
+      String body = parent.body!;
+      String title = body.replaceRange(50, body.length, '...');
+
+      return 'Respondendo a "$title"';
+    } else {
+      return 'Em resposta a "${parent.title}"';
+    }
   }
 
   @override
@@ -56,7 +81,7 @@ class _ContentPageState extends State<ContentPage> {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
 
     return PageLayout(
-      onRefresh: _getContent,
+      onRefresh: () => _getContent(),
       actions: isLoading
           ? null
           : [
@@ -99,8 +124,8 @@ class _ContentPageState extends State<ContentPage> {
                         ),
                         const SizedBox(height: 10.0),
                         Text(
-                          content.parentId != null
-                              ? 'Em resposta a...'
+                          content.parent != null
+                              ? _getTitleParent(content.parent!)
                               : '${content.title}',
                           style: const TextStyle().copyWith(
                             fontSize: 18.0,
@@ -112,29 +137,7 @@ class _ContentPageState extends State<ContentPage> {
                           controller: _controller,
                         ),
                         content.sourceUrl != null
-                            ? Row(
-                                children: [
-                                  Text(
-                                    'Fonte: ',
-                                    style: const TextStyle().copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () => OpenLink.open(
-                                      content.sourceUrl,
-                                      context,
-                                    ),
-                                    child: Text(
-                                      '${content.sourceUrl}',
-                                      style: const TextStyle().copyWith(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
+                            ? SourceUrl(sourceUrl: content.sourceUrl!)
                             : const SizedBox(),
                         const SizedBox(height: 30.0),
                         const Divider(),

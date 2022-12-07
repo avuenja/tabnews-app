@@ -46,14 +46,16 @@ class ContentService {
     }
   }
 
-  Future<Content> fetchContent(String slug) async {
+  Future<HttpResponse> fetchContent(String slug) async {
     final response = await http.get(Uri.parse('$apiUrl/$slug'));
 
-    if (response.statusCode == 200) {
-      return Content.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to load singular content');
-    }
+    return HttpResponse(response.statusCode, response.body);
+  }
+
+  Future<HttpResponse> fetchContentParent(String slug) async {
+    final response = await http.get(Uri.parse('$apiUrl/$slug/parent'));
+
+    return HttpResponse(response.statusCode, response.body);
   }
 
   Future<List<Comment>> fetchContentComments(String slug) async {
