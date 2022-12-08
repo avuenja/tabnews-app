@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tabnews/src/controllers/app.dart';
 import 'package:tabnews/src/controllers/content.dart';
 import 'package:tabnews/src/interfaces/view_action.dart';
+import 'package:tabnews/src/ui/widgets/answer.dart';
 import 'package:tabnews/src/ui/widgets/source_url.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -139,9 +141,28 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
                         content.sourceUrl != null
                             ? SourceUrl(sourceUrl: content.sourceUrl!)
                             : const SizedBox(),
-                        const SizedBox(height: 30.0),
-                        const Divider(),
-                        const SizedBox(height: 30.0),
+                        ValueListenableBuilder(
+                          valueListenable: AppController.isLoggedIn,
+                          builder: (context, isLoggedIn, child) {
+                            if (isLoggedIn) {
+                              return Column(
+                                children: const [
+                                  SizedBox(height: 30.0),
+                                  Answer(),
+                                  SizedBox(height: 30.0),
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                children: const [
+                                  SizedBox(height: 30.0),
+                                  Divider(),
+                                  SizedBox(height: 30.0),
+                                ],
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),

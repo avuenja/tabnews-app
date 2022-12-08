@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tabnews/src/controllers/app.dart';
 import 'package:tabnews/src/ui/pages/profile_user.dart';
+import 'package:tabnews/src/ui/widgets/answer.dart';
 import 'package:tabnews/src/ui/widgets/comments_children.dart';
 import 'package:tabnews/src/utils/navigation.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -60,6 +62,22 @@ class ItemComment extends StatelessWidget {
                   ),
                 )
               : const SizedBox(),
+          ValueListenableBuilder(
+            valueListenable: AppController.isLoggedIn,
+            builder: (context, isLoggedIn, child) {
+              if (isLoggedIn) {
+                return Column(
+                  children: const [
+                    SizedBox(height: 15.0),
+                    Answer(inComment: true),
+                    SizedBox(height: 15.0),
+                  ],
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
         ],
       ),
     );
