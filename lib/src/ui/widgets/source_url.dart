@@ -17,16 +17,19 @@ class SourceUrl extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        InkWell(
-          onTap: () => OpenLink.open(
-            sourceUrl,
-            context,
-          ),
-          child: Text(
-            sourceUrl,
-            style: const TextStyle().copyWith(
-              color: Colors.blue,
-              fontWeight: FontWeight.w700,
+        Expanded(
+          child: InkWell(
+            onTap: () => OpenLink.open(
+              sourceUrl,
+              context,
+            ),
+            child: Text(
+              sourceUrl,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle().copyWith(
+                color: Colors.blue,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),

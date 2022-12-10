@@ -146,10 +146,10 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
                           builder: (context, isLoggedIn, child) {
                             if (isLoggedIn) {
                               return Column(
-                                children: const [
-                                  SizedBox(height: 30.0),
-                                  Answer(),
-                                  SizedBox(height: 30.0),
+                                children: [
+                                  const SizedBox(height: 30.0),
+                                  Answer(parentId: content.id!),
+                                  const SizedBox(height: 30.0),
                                 ],
                               );
                             } else {

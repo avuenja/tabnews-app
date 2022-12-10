@@ -67,10 +67,13 @@ class ItemComment extends StatelessWidget {
             builder: (context, isLoggedIn, child) {
               if (isLoggedIn) {
                 return Column(
-                  children: const [
-                    SizedBox(height: 15.0),
-                    Answer(inComment: true),
-                    SizedBox(height: 15.0),
+                  children: [
+                    const SizedBox(height: 15.0),
+                    Answer(
+                      parentId: comment.id!,
+                      inComment: true,
+                    ),
+                    const SizedBox(height: 15.0),
                   ],
                 );
               } else {

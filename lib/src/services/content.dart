@@ -118,6 +118,28 @@ class ContentService {
       }),
     );
 
-    return HttpResponse<Content>(response.statusCode, response.body);
+    return HttpResponse(response.statusCode, response.body);
+  }
+
+  Future<HttpResponse> postComment(
+    String token,
+    String parentId,
+    String body,
+  ) async {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Set-Cookie': 'session_id=$token',
+        'Cookie': 'session_id=$token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'parent_id': parentId,
+        'body': body,
+        'status': 'published',
+      }),
+    );
+
+    return HttpResponse(response.statusCode, response.body);
   }
 }
