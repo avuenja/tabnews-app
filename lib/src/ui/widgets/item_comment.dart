@@ -83,10 +83,19 @@ class _ItemCommentState extends State<ItemComment> {
                 ),
               ),
               const Spacer(),
-              Tabcoins(
-                upvote: () => _tabcoins('upvote'),
-                tabcoins: '${comment.tabcoins}',
-                downvote: () => _tabcoins('downvote'),
+              ValueListenableBuilder(
+                valueListenable: AppController.isLoggedIn,
+                builder: (context, isLoggedIn, _) {
+                  if (!isLoggedIn) {
+                    return const SizedBox();
+                  }
+
+                  return Tabcoins(
+                    upvote: () => _tabcoins('upvote'),
+                    tabcoins: '${comment.tabcoins}',
+                    downvote: () => _tabcoins('downvote'),
+                  );
+                },
               ),
             ],
           ),

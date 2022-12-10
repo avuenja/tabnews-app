@@ -153,10 +153,19 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
                               ),
                             ),
                             const Spacer(),
-                            Tabcoins(
-                              upvote: () => _tabcoins('upvote'),
-                              tabcoins: '${content.tabcoins}',
-                              downvote: () => _tabcoins('downvote'),
+                            ValueListenableBuilder(
+                              valueListenable: AppController.isLoggedIn,
+                              builder: (context, isLoggedIn, _) {
+                                if (!isLoggedIn) {
+                                  return const SizedBox();
+                                }
+
+                                return Tabcoins(
+                                  upvote: () => _tabcoins('upvote'),
+                                  tabcoins: '${content.tabcoins}',
+                                  downvote: () => _tabcoins('downvote'),
+                                );
+                              },
                             ),
                           ],
                         ),
