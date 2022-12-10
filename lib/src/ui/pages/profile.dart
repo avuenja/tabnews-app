@@ -50,16 +50,31 @@ class _ProfilePageState extends State<ProfilePage> implements ViewAction {
           ValueListenableBuilder(
             valueListenable: AppController.user,
             builder: (context, user, child) {
-              return Text(
-                '${user.username}',
-                style: const TextStyle().copyWith(
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.w700,
-                ),
+              return Column(
+                children: [
+                  Text(
+                    '${user.username}',
+                    style: const TextStyle().copyWith(
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildColorContainer(Colors.blue),
+                      Text('${user.tabcoins ?? 0}'),
+                      const SizedBox(width: 10.0),
+                      _buildColorContainer(Colors.green),
+                      Text('${user.tabcash ?? 0}'),
+                    ],
+                  ),
+                ],
               );
             },
           ),
-          const SizedBox(height: 80.0),
+          const SizedBox(height: 60.0),
           ListTile(
             onTap: () => Navigation.push(context, const MyContentsPage()),
             title: const Text('Meu conteúdo'),
@@ -85,6 +100,18 @@ class _ProfilePageState extends State<ProfilePage> implements ViewAction {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildColorContainer(Color color) {
+    return Container(
+      margin: const EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(2.5),
+      ),
+      width: 12.0,
+      height: 12.0,
     );
   }
 }
