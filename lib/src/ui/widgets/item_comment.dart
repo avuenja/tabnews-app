@@ -103,15 +103,6 @@ class _ItemCommentState extends State<ItemComment> {
             body: comment.body!,
             controller: controller,
           ),
-          comment.children!.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: CommentsWidget(
-                    comments: comment.children!,
-                    controller: controller,
-                  ),
-                )
-              : const SizedBox(),
           ValueListenableBuilder(
             valueListenable: AppController.isLoggedIn,
             builder: (context, isLoggedIn, child) {
@@ -131,6 +122,15 @@ class _ItemCommentState extends State<ItemComment> {
               }
             },
           ),
+          comment.children!.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: CommentsWidget(
+                    comments: comment.children!,
+                    controller: controller,
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

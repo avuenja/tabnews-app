@@ -73,7 +73,13 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
   String _getTitleParent(Content parent) {
     if (content.parentId != null) {
       String body = parent.body!;
-      String title = body.replaceRange(50, body.length, '...');
+      String title = '...';
+
+      if (body.length < 50) {
+        title = body.replaceRange(body.length, body.length, '...');
+      } else {
+        title = body.replaceRange(50, body.length, '...');
+      }
 
       return 'Respondendo a "$title"';
     } else {
@@ -110,108 +116,86 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
 
     return PageLayout(
       onRefresh: () => _getContent(),
-      actions: isLoading
-          ? null
-          : [
-              IconButton(
-                onPressed: () => _favoritesController.toggle(
-                  content,
-                ),
-                icon: ValueListenableBuilder(
-                  valueListenable: _favoritesController.favorites,
-                  builder: (context, favorites, child) {
-                    bool isFavorited = favorites
-                        .where((element) => element.id == content.id)
-                        .isNotEmpty;
-
-                    return Icon(
-                      isFavorited ? Icons.favorite : Icons.favorite_border,
-                    );
-                  },
-                ),
-              ),
-            ],
+      actions: _buildActions(),
       body: isLoading
           ? const AppProgressIndicator()
-          : Padding(
+          : SingleChildScrollView(
+              controller: _controller,
               padding: const EdgeInsets.all(10.0),
-              child: CustomScrollView(
-                controller: _controller,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${content.ownerUsername} · ${timeago.format(DateTime.parse(content.publishedAt!), locale: "pt-BR")}',
-                              style: const TextStyle().copyWith(
-                                color: context.isDarkMode
-                                    ? Colors.grey.shade400
-                                    : Colors.grey.shade700,
-                              ),
-                            ),
-                            const Spacer(),
-                            ValueListenableBuilder(
-                              valueListenable: AppController.isLoggedIn,
-                              builder: (context, isLoggedIn, _) {
-                                if (!isLoggedIn) {
-                                  return const SizedBox();
-                                }
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '${content.ownerUsername} · ${timeago.format(DateTime.parse(content.publishedAt!), locale: "pt-BR")}',
+                        style: const TextStyle().copyWith(
+                          color: context.isDarkMode
+                              ? Colors.grey.shade400
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                      const Spacer(),
+                      ValueListenableBuilder(
+                        valueListenable: AppController.isLoggedIn,
+                        builder: (context, isLoggedIn, _) {
+                          if (!isLoggedIn) {
+                            return const SizedBox();
+                          }
 
-                                return Tabcoins(
-                                  upvote: () => _tabcoins('upvote'),
-                                  tabcoins: '${content.tabcoins}',
-                                  downvote: () => _tabcoins('downvote'),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10.0),
-                        Text(
-                          content.parent != null
-                              ? _getTitleParent(content.parent!)
-                              : '${content.title}',
-                          style: const TextStyle().copyWith(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        MarkedownReader(
-                          body: '${content.body}',
-                          controller: _controller,
-                        ),
-                        content.sourceUrl != null
-                            ? SourceUrl(sourceUrl: content.sourceUrl!)
-                            : const SizedBox(),
-                        ValueListenableBuilder(
-                          valueListenable: AppController.isLoggedIn,
-                          builder: (context, isLoggedIn, child) {
-                            if (isLoggedIn) {
-                              return Column(
-                                children: [
-                                  const SizedBox(height: 30.0),
-                                  Answer(parentId: content.id!),
-                                  const SizedBox(height: 30.0),
-                                ],
-                              );
-                            } else {
-                              return Column(
-                                children: const [
-                                  SizedBox(height: 30.0),
-                                  Divider(),
-                                  SizedBox(height: 30.0),
-                                ],
-                              );
-                            }
-                          },
-                        ),
-                      ],
+                          return Tabcoins(
+                            upvote: () => _tabcoins('upvote'),
+                            tabcoins: '${content.tabcoins}',
+                            downvote: () => _tabcoins('downvote'),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    content.parent != null
+                        ? _getTitleParent(content.parent!)
+                        : '${content.title}',
+                    style: const TextStyle().copyWith(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SliverFillRemaining(
+                  MarkedownReader(
+                    body: '${content.body}',
+                    controller: _controller,
+                  ),
+                  content.sourceUrl != null
+                      ? SourceUrl(sourceUrl: content.sourceUrl!)
+                      : const SizedBox(),
+                  ValueListenableBuilder(
+                    valueListenable: AppController.isLoggedIn,
+                    builder: (context, isLoggedIn, child) {
+                      if (isLoggedIn) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 30.0),
+                            Answer(parentId: content.id!),
+                            const SizedBox(height: 30.0),
+                          ],
+                        );
+                      } else {
+                        return Column(
+                          children: const [
+                            SizedBox(height: 30.0),
+                            Divider(),
+                            SizedBox(height: 30.0),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: content.parent != null
+                        ? double
+                            .minPositive // TODO: Aqui tem que verificar para ficar melhor
+                        : double.maxFinite,
                     child: CommentsRootWidget(
                       slug: '${widget.username}/${widget.slug}',
                       controller: _controller,
@@ -221,5 +205,29 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
               ),
             ),
     );
+  }
+
+  List<Widget>? _buildActions() {
+    return isLoading
+        ? null
+        : [
+            IconButton(
+              onPressed: () => _favoritesController.toggle(
+                content,
+              ),
+              icon: ValueListenableBuilder(
+                valueListenable: _favoritesController.favorites,
+                builder: (context, favorites, child) {
+                  bool isFavorited = favorites
+                      .where((element) => element.id == content.id)
+                      .isNotEmpty;
+
+                  return Icon(
+                    isFavorited ? Icons.favorite : Icons.favorite_border,
+                  );
+                },
+              ),
+            ),
+          ];
   }
 }
