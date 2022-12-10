@@ -16,7 +16,7 @@ class TabLayout extends StatefulWidget {
   State<TabLayout> createState() => _TabLayoutState();
 }
 
-class _TabLayoutState extends State<TabLayout> {
+class _TabLayoutState extends State<TabLayout> with WidgetsBindingObserver {
   List<ScrollController> pagesScrollController = [
     ScrollController(),
     ScrollController(),
@@ -49,6 +49,26 @@ class _TabLayoutState extends State<TabLayout> {
         );
       }
     });
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (AppController.isLoggedIn.value && state == AppLifecycleState.resumed) {
+      AppController.updateUser();
+    }
   }
 
   @override

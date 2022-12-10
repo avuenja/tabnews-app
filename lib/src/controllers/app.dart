@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:tabnews/src/constants.dart';
 import 'package:tabnews/src/models/user.dart';
 import 'package:tabnews/src/preferences.dart';
+import 'package:tabnews/src/services/auth.dart';
 
 class AppController {
   static final AppController _singleton = AppController._internal();
+
+  static final AuthService _authService = AuthService();
 
   factory AppController() {
     return _singleton;
@@ -38,5 +41,12 @@ class AppController {
     }
 
     return User.fromJson({});
+  }
+
+  static void updateUser() async {
+    var userRefresh = await _authService.fetchUser(auth.value);
+
+    Preferences.setString(_userKey, jsonEncode(userRefresh.data));
+    user.value = _getLoggedUser();
   }
 }

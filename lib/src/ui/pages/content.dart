@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 import 'package:tabnews/src/controllers/app.dart';
 import 'package:tabnews/src/controllers/content.dart';
 import 'package:tabnews/src/interfaces/view_action.dart';
+import 'package:tabnews/src/services/content.dart';
 import 'package:tabnews/src/ui/widgets/answer.dart';
 import 'package:tabnews/src/ui/widgets/source_url.dart';
-import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:tabnews/src/ui/widgets/tabcoins.dart';
 import 'package:tabnews/src/controllers/favorites.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/models/content.dart';
@@ -33,6 +35,7 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
   late ContentController _contentController;
 
   Content content = Content.fromJson({});
+  final _contentService = ContentService();
   final ScrollController _controller = ScrollController();
   bool isLoading = true;
 
@@ -78,6 +81,29 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
     }
   }
 
+  _tabcoins(String vote) async {
+    var tabcoinsResp = await _contentService.postTabcoins(
+      '${widget.username}/${widget.slug}',
+      vote == 'upvote' ? 'credit' : 'debit',
+    );
+
+    if (tabcoinsResp.ok) {
+      setState(() {
+        content.tabcoins = tabcoinsResp.data['tabcoins'];
+      });
+    } else {
+      _onResponse(tabcoinsResp.message);
+    }
+  }
+
+  void _onResponse(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
@@ -116,13 +142,23 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '${content.ownerUsername} · ${timeago.format(DateTime.parse(content.publishedAt!), locale: "pt-BR")}',
-                          style: const TextStyle().copyWith(
-                            color: context.isDarkMode
-                                ? Colors.grey.shade400
-                                : Colors.grey.shade700,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              '${content.ownerUsername} · ${timeago.format(DateTime.parse(content.publishedAt!), locale: "pt-BR")}',
+                              style: const TextStyle().copyWith(
+                                color: context.isDarkMode
+                                    ? Colors.grey.shade400
+                                    : Colors.grey.shade700,
+                              ),
+                            ),
+                            const Spacer(),
+                            Tabcoins(
+                              upvote: () => _tabcoins('upvote'),
+                              tabcoins: '${content.tabcoins}',
+                              downvote: () => _tabcoins('downvote'),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
                         Text(

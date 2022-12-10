@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tabnews/src/controllers/app.dart';
 import 'package:tabnews/src/enviroment_vars.dart';
 import 'package:tabnews/src/models/comment.dart';
 
@@ -137,6 +138,22 @@ class ContentService {
         'parent_id': parentId,
         'body': body,
         'status': 'published',
+      }),
+    );
+
+    return HttpResponse(response.statusCode, response.body);
+  }
+
+  Future<HttpResponse> postTabcoins(String slug, String type) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/$slug/tabcoins'),
+      headers: {
+        'Set-Cookie': 'session_id=${AppController.auth.value}',
+        'Cookie': 'session_id=${AppController.auth.value}',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'transaction_type': type,
       }),
     );
 
