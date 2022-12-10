@@ -157,6 +157,8 @@ class ContentService {
       }),
     );
 
+    AppController.updateUser();
+
     return HttpResponse(response.statusCode, response.body);
   }
 }
