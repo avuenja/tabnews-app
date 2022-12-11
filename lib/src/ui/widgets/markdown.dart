@@ -25,7 +25,7 @@ class MarkedownReader extends StatelessWidget {
       controller: controller,
       data: body,
       selectable: true,
-      onTapLink: (text, href, title) async {
+      onTapLink: (text, href, title) {
         OpenLink.open(href, context);
       },
       extensionSet: md.ExtensionSet(

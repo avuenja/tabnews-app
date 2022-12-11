@@ -23,6 +23,8 @@ class _CommentsRootWidgetState extends State<CommentsRootWidget> {
   List<Comment> comments = [];
   final api = ContentService();
 
+  Key _refreshKey = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +40,12 @@ class _CommentsRootWidgetState extends State<CommentsRootWidget> {
     });
   }
 
+  void _onAnswer() {
+    setState(() {
+      _refreshKey = UniqueKey();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
@@ -47,8 +55,10 @@ class _CommentsRootWidgetState extends State<CommentsRootWidget> {
       itemCount: comments.length,
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) => ItemComment(
+        key: _refreshKey,
         comment: comments[index],
         controller: widget.controller,
+        onAnswer: _onAnswer,
       ),
     );
   }

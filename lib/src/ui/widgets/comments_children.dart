@@ -8,11 +8,13 @@ import 'package:tabnews/src/ui/widgets/item_comment.dart';
 class CommentsWidget extends StatefulWidget {
   final List<Comment> comments;
   final ScrollController controller;
+  final void Function() onAnswer;
 
   const CommentsWidget({
     super.key,
     required this.comments,
     required this.controller,
+    required this.onAnswer,
   });
 
   @override
@@ -34,6 +36,7 @@ class _CommentsWidgetState extends State<CommentsWidget> {
       itemBuilder: (context, index) => ItemComment(
         comment: widget.comments[index],
         controller: widget.controller,
+        onAnswer: widget.onAnswer,
       ),
     );
   }

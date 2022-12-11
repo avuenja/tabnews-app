@@ -47,14 +47,16 @@ class ContentService {
     }
   }
 
-  Future<Content> fetchContent(String slug) async {
+  Future<HttpResponse> fetchContent(String slug) async {
     final response = await http.get(Uri.parse('$apiUrl/$slug'));
 
-    if (response.statusCode == 200) {
-      return Content.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed to load singular content');
-    }
+    return HttpResponse(response.statusCode, response.body);
+  }
+
+  Future<HttpResponse> fetchContentParent(String slug) async {
+    final response = await http.get(Uri.parse('$apiUrl/$slug/parent'));
+
+    return HttpResponse(response.statusCode, response.body);
   }
 
   Future<List<Comment>> fetchContentComments(String slug) async {
@@ -117,7 +119,29 @@ class ContentService {
       }),
     );
 
-    return HttpResponse<Content>(response.statusCode, response.body);
+    return HttpResponse(response.statusCode, response.body);
+  }
+
+  Future<HttpResponse> postComment(
+    String token,
+    String parentId,
+    String body,
+  ) async {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Set-Cookie': 'session_id=$token',
+        'Cookie': 'session_id=$token',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'parent_id': parentId,
+        'body': body,
+        'status': 'published',
+      }),
+    );
+
+    return HttpResponse(response.statusCode, response.body);
   }
 
   Future<HttpResponse> postTabcoins(String slug, String type) async {
@@ -132,6 +156,8 @@ class ContentService {
         'transaction_type': type,
       }),
     );
+
+    AppController.updateUser();
 
     return HttpResponse(response.statusCode, response.body);
   }
