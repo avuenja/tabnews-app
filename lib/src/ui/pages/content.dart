@@ -39,6 +39,8 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
   final ScrollController _controller = ScrollController();
   bool isLoading = true;
 
+  Key _refreshKey = UniqueKey();
+
   String get slug => '${widget.username}/${widget.slug}';
 
   @override
@@ -110,6 +112,12 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
     );
   }
 
+  void _onAnswer() {
+    setState(() {
+      _refreshKey = UniqueKey();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     timeago.setLocaleMessages('pt-BR', timeago.PtBrMessages());
@@ -176,7 +184,10 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
                         return Column(
                           children: [
                             const SizedBox(height: 30.0),
-                            Answer(parentId: content.id!),
+                            Answer(
+                              parentId: content.id!,
+                              onAnswer: _onAnswer,
+                            ),
                             const SizedBox(height: 30.0),
                           ],
                         );
@@ -197,6 +208,7 @@ class _ContentPageState extends State<ContentPage> implements ViewAction {
                             .minPositive // TODO: Aqui tem que verificar para ficar melhor
                         : double.maxFinite,
                     child: CommentsRootWidget(
+                      key: _refreshKey,
                       slug: '${widget.username}/${widget.slug}',
                       controller: _controller,
                     ),

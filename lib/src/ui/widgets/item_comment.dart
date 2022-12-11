@@ -15,11 +15,13 @@ import 'package:tabnews/src/ui/widgets/markdown.dart';
 class ItemComment extends StatefulWidget {
   final Comment comment;
   final ScrollController controller;
+  final void Function() onAnswer;
 
   const ItemComment({
     super.key,
     required this.comment,
     required this.controller,
+    required this.onAnswer,
   });
 
   @override
@@ -113,6 +115,7 @@ class _ItemCommentState extends State<ItemComment> {
                     Answer(
                       parentId: comment.id!,
                       inComment: true,
+                      onAnswer: widget.onAnswer,
                     ),
                     const SizedBox(height: 15.0),
                   ],
@@ -128,6 +131,7 @@ class _ItemCommentState extends State<ItemComment> {
                   child: CommentsWidget(
                     comments: comment.children!,
                     controller: controller,
+                    onAnswer: widget.onAnswer,
                   ),
                 )
               : const SizedBox(),

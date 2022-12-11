@@ -10,11 +10,13 @@ import 'package:tabnews/src/ui/widgets/markdown.dart';
 class Answer extends StatefulWidget {
   final bool inComment;
   final String parentId;
+  final void Function() onAnswer;
 
   const Answer({
     super.key,
     this.inComment = false,
     required this.parentId,
+    required this.onAnswer,
   });
 
   @override
@@ -38,6 +40,8 @@ class _AnswerState extends State<Answer> implements ViewAction {
 
   @override
   onSuccess({data}) {
+    bodyTextController.clear();
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
@@ -46,7 +50,11 @@ class _AnswerState extends State<Answer> implements ViewAction {
       ),
     );
 
-    // TODO: É necessário atualizar os comentários
+    setState(() {
+      isAnswering = false;
+    });
+
+    widget.onAnswer();
   }
 
   @override
