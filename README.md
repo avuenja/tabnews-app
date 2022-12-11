@@ -15,7 +15,7 @@ Aplicativo TabNews feito com muito ♥️ e Flutter pela comunidade, para o site
 - [x] Meus conteúdos
 - [x] Gerencimaneto de conta
 - [x] Criação de conta pelo App
-- [ ] Resposta dos conteúdos
+- [x] Resposta dos conteúdos
 - [x] Interação com Tabcoins
 - [x] Postagens de conteúdos
 - [x] Visualização do perfil de outros usuários
