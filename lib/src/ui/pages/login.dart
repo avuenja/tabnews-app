@@ -5,6 +5,7 @@ import 'package:tabnews/src/controllers/auth.dart';
 import 'package:tabnews/src/extensions/dark_mode.dart';
 import 'package:tabnews/src/interfaces/view_action.dart';
 import 'package:tabnews/src/ui/pages/register.dart';
+import 'package:tabnews/src/ui/pages/use_terms.dart';
 import 'package:tabnews/src/utils/navigation.dart';
 
 class LoginPage extends StatefulWidget {
@@ -163,6 +164,19 @@ class _LoginPageState extends State<LoginPage> implements ViewAction {
                     child: const Text('Criar cadastro'),
                   ),
                 ],
+              ),
+              const SizedBox(height: 50),
+              TextButton(
+                style: const ButtonStyle().copyWith(
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                    context.isDarkMode ? Colors.white : AppColors.primaryColor,
+                  ),
+                ),
+                onPressed: () => Navigation.push(
+                  context,
+                  UseTermsPage(),
+                ),
+                child: const Text('Termos de Uso'),
               ),
             ],
           ),
